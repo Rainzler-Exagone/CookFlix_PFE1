@@ -1,6 +1,5 @@
 "use client"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -11,7 +10,18 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import food from '../../public/food.jpg'
+import Avatar from "./Avatar"
+import { ChakraProvider } from "@chakra-ui/react"
+import {
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuDivider,
+  } from '@chakra-ui/react'
 import { signOut } from "next-auth/react"
 
   
@@ -19,25 +29,25 @@ import { signOut } from "next-auth/react"
 export default  function UserNav(){
 
     return(
-    <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-10 w-10 ">
-                <Avatar className="h-10 w-10 rounded-full">
-                <AvatarImage src="https://elpflctkffvafohsywkb.supabase.co/storage/v1/object/public/user%20image/istockphoto-470162568-612x612.jpg" />
-                <AvatarFallback>RX</AvatarFallback>
-                </Avatar>
-            </Button>
-        </DropdownMenuTrigger>
-       <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel>
-            <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">Rainzler</p>
-                <p className="text-xs leading-none text-muted-foreground ">Yasseraimeur0@gmail.com</p>
-            </div>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator/>
-        <DropdownMenuItem onClick={()=>signOut()}>Sign out</DropdownMenuItem>
-       </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+    <ChakraProvider>
+      <Menu>
+        <MenuButton>
+          <Avatar />
+        </MenuButton>
+        <MenuList className="text-black">
+          <MenuGroup title='Profile' className="text-black">
+            <MenuItem>Yasser458891@gmail.com</MenuItem>
+            <MenuItem>Rainzler </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
+          <MenuGroup title='Help'>
+              <MenuItem color="red" onClick={()=>signOut()}>Sign out</MenuItem>
+          </MenuGroup>
+        </MenuList>
+      </Menu>
+    </ChakraProvider>
+
+  </>
     )
 }

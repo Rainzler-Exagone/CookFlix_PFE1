@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 import cinema from "@/public/recipe.jpg"
+import Logo from "@/app/components/Logo"
 
 
 
@@ -13,8 +14,8 @@ export default function AuthLayout({children} : {children : ReactNode}){
        className="hidden sm:flex sm:object-cover -z-10 brightness-50" 
        priority 
        fill 
-       /> 
-       <h1 className="absolute left-4 top-4 text-4xl">Cookflix</h1>
+       />
+      <div className="w-screen pl-8 top-4 absolute" > <Logo /></div>
       {children}
     </div>
       );

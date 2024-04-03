@@ -41,8 +41,11 @@ model User {
   image         String?
   created_at    DateTime  @default(now()) @db.Timestamptz(6)
   updated_at    DateTime  @updatedAt
+  password      String?
+  ratingId      String?   @unique
   accounts      Account[]
   sessions      Session[]
+  Rating        Rating?   @relation(fields: [ratingId], references: [id])
 }
 
 model VerificationToken {
@@ -51,4 +54,113 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Ingredients {
+  id       String          @id @default(uuid())
+  name     String?
+  type     ingredienttype?
+  imagesrc String?
+  mealId   String?         @db.Uuid
+  Meal     Meal?           @relation(fields: [mealId], references: [id])
+}
+
+model Meal {
+  id              String           @id @db.Uuid
+  name            String?          @db.VarChar
+  image           String?          @db.VarChar
+  saisone         saisone?
+  difficulty      difficulty?
+  nutrition_facts String?
+  Ingredients     Ingredients[]
+  Nutrition_facts Nutrition_facts? @relation(fields: [nutrition_facts], references: [id])
+  Rating          Rating[]
+}
+
+model Nutrition_facts {
+  id          String @id
+  calorie     Float
+  protein     Float
+  fibre       Float
+  carb        Float
+  sucre       Float
+  sodium      Float
+  Fer         Float
+  Fat         Float
+  cholesterol Float
+  Meal        Meal[]
+}
+
+model Rating {
+  id     String  @id
+  mealId String? @db.Uuid
+  Meal   Meal?   @relation(fields: [mealId], references: [id])
+  User   User?
+}
+model Recipe {
+  id            String   @id @default(uuid())
+  category      category
+  image         String?
+  Description   String
+  Preparation_t DateTime
+  Rest_t        DateTime
+  Cooking_t     DateTime
+  Difficulty    difficulty
+  Events        occasions
+  video         String?
+}
+
+enum difficulty {
+  hard
+  medium
+  easy
+}
+
+enum ingredienttype {
+  Pantry_Essentials                    @map("Pantry Essentials")
+  Vegetables___Greens                  @map("Vegetables & Greens")
+  Mushrooms
+  Fruits
+  Berries
+  Nuts___Seeds                         @map("Nuts & Seeds")
+  Cheeses
+  Dairy___Eggs                         @map("Dairy & Eggs")
+  Meats
+  Poultry
+  Fish___Seefood                       @map("Fish & Seefood")
+  Sauces
+  Herbs___Spices                       @map("Herbs & Spices")
+  Baking
+  Pre_Made_Doughs___Wrappers           @map("Pre_Made Doughs & Wrappers")
+  Pastries
+  Bread___Salty_Snacks                 @map("Bread & Salty Snacks")
+  Oils___Fats                          @map("Oils & Fats")
+  Dressings___Vinegars                 @map("Dressings & Vinegars")
+  Sugar___Sweetener                    @map("Sugar & Sweetener")
+  Seasonings___Spice_BlendsCanned_Food @map("Seasonings & Spice BlendsCanned Food")
+  Desserts___Sweet_Snacks              @map("Desserts & Sweet Snacks")
+  Beverages
+}
+
+enum saisone {
+  winter
+  summer
+  Autumn
+  spring
+}
+
+enum category {
+  Entrance
+  Main_dish
+  Dessert
+  Juice
+}
+
+enum occasions {
+  Marriage
+  Mouloud
+  Circumcision
+  Eid
+  Achoura
+  Ramadhan
 }
