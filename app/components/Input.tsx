@@ -46,7 +46,7 @@
 "use client"
 import { theme } from "@chakra-ui/react";
 import { Autocomplete, createTheme, TextField, ThemeProvider } from "@mui/material";
-import { orange } from "@mui/material/colors";
+import { orange, red } from "@mui/material/colors";
 import React, { useState } from "react";
 
 declare module '@mui/material/styles' {
@@ -72,7 +72,7 @@ export const IngredientLists = () => {
 
   const theme = createTheme({
     status: {
-      danger: orange[500],
+      danger: red[500],
     },
   });
  
@@ -102,7 +102,7 @@ export const IngredientLists = () => {
           setIngredientInputValue(newIngredientInputValue);
         }}
         renderInput={(params) => {
-          return <TextField label='Select your ingredients' {...params} />;
+          return <TextField  label='Select your ingredients' {...params}  />;
         }}
       ></Autocomplete>
     </React.Fragment>

@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
+    /* --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
  
     --card: 222.2 84% 4.9%;
@@ -32,8 +32,12 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
- 
-    --radius: 0.5rem;
+    
+    --radius: 0.5rem; */
+
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
   }
  
   .dark {
@@ -72,6 +76,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-white text-foreground;
+    @apply bg-background text-foreground;
   }
 }

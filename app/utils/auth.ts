@@ -31,36 +31,7 @@ export const authOptions = {
         },
         from: process.env.EMAIL_FROM
       }),
-      CredentialsProvider({
-        
-        name: "Credentials",
-        
-        credentials: {
-          email : {},
-          password : {}
-        },
-        async authorize(credentials, req) {
-
-          const response =  await prisma.user.findFirst({
-            where : { 
-              email : credentials?.email
-            }
-          })
-          
-          if (response) {
-            const isMatch = await compare(credentials?.password || '', response.password!)
-            console.log(isMatch)
-            if (isMatch) {
-              return {
-                id : response.id,
-                email: response.email,
-              }
-            }
-          }
-          
-          return null
-        }
-      })
+      
     ],
     session: {
         strategy: 'jwt'

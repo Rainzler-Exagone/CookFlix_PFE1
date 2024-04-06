@@ -38,7 +38,7 @@ export default function Navbar() {
 
             </div>
             <div className="w-1/2 flex mt-5">
-                <ul className=" w-full flex justify-around">
+                <ul className=" lg:flex  w-full  justify-around hidden ">
                     {links.map((link, idx) => (
                         <div key={idx}  >
                             {pathName === link.href ? (

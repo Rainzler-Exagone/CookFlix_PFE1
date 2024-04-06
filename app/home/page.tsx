@@ -1,6 +1,16 @@
 import AvatarIcon from "../components/Avatar"
 import Navbar from "../components/Navbar"
+import { IngredientLists } from "../components/Input"
+
 
 export default function HomePage(){
-    return <h1>heelo</h1>
+    return (
+       <main>
+         <div className="flex justify-center h-screen ">
+            
+            <IngredientLists />
+             </div>
+             
+       </main>
+    )
 }
