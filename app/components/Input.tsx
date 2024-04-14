@@ -44,10 +44,10 @@
 // };
 
 "use client"
-import { theme } from "@chakra-ui/react";
 import { Autocomplete, createTheme, TextField, ThemeProvider } from "@mui/material";
 import { orange, red } from "@mui/material/colors";
 import React, { useState } from "react";
+import prisma from "../utils/db";
 
 declare module '@mui/material/styles' {
     interface Theme {
@@ -63,10 +63,12 @@ declare module '@mui/material/styles' {
     }
   }
  
+  
 export const IngredientLists = () => {
   const ingredients = ["Carrot", "Letus", "Potato", "Spinach","Salad","Bread","Salt","Scrum","Agile","Kanban","Butter","Soy sauce"];
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [ingredientInputValue, setIngredientInputValue] = useState("");
+  const [newoptions, setNewOptions] = useState(ingredients)
  
   console.log(selectedIngredients);
 
@@ -91,10 +93,14 @@ export const IngredientLists = () => {
         </span> */}
       </h5>
       <Autocomplete
-        multiple
-        style={{ width: "80%" }}
+
         options={ingredients}
+        multiple
+        style={{ width: "80%"}}
+        
+        className="bg-gray-100"
         onChange={(event, newIngredient:any) => {
+          setNewOptions(["Spinach"])
           setSelectedIngredients(newIngredient);
         }}
         inputValue={ingredientInputValue}
@@ -102,6 +108,7 @@ export const IngredientLists = () => {
           setIngredientInputValue(newIngredientInputValue);
         }}
         renderInput={(params) => {
+         
           return <TextField  label='Select your ingredients' {...params}  />;
         }}
       ></Autocomplete>

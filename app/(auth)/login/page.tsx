@@ -16,11 +16,11 @@ export default async function Login() {
         return redirect('/home')
     }
     return (
-        <div className="mt-32 rounded-xl bg-black/45 py-10 px-6 md:max-w-sm  md:px-14">
+        <div className="mt-20 rounded-xl bg-black/45 py-10 px-6 md:max-w-sm  md:px-14">
            
              <Form/>
             <div className="text-gray-500 text-sm mt-2">
-                New to Cookflix ? {" "}<Link className="text-white hover:underline " href="/signup">Sign up!</Link>
+                New to Instantcook ? {" "}<Link className="text-white hover:underline " href="/signup">Sign up!</Link>
             </div>
 
             <div className="flex w-full justify-center items-center gap-x-3 mt-6">

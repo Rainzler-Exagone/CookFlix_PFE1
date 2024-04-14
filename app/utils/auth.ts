@@ -9,6 +9,8 @@ import Email from "next-auth/providers/email";
 import { compare } from "bcrypt";
 
 
+
+
 export const authOptions = {
  adapter:PrismaAdapter(prisma),
    providers: [
@@ -38,6 +40,7 @@ export const authOptions = {
       },
       secret : process.env.NEXTAUTH_SECRET,
       debug : process.env.NODE_ENV === 'development',
-    
+
+      
 
 } satisfies NextAuthOptions

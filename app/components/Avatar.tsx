@@ -1,20 +1,16 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../utils/auth";
-import { Avatar } from "@chakra-ui/react";
-import { ChakraProvider } from "@chakra-ui/react";
-import { Wrap, WrapItem } from '@chakra-ui/react'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default async function AvatarIcon() {
     // const session = await getServerSession(authOptions)
     return (
         <>
-            <ChakraProvider>
-                <Wrap>
-                    <WrapItem>
-                        <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' />
-                    </WrapItem>
-                </Wrap>
-            </ChakraProvider>
+           <Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" />
+  <AvatarFallback>CN</AvatarFallback>
+</Avatar>
+
         </>
     )
 }

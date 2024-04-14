@@ -18,10 +18,10 @@ export default function Form (){
    return(
     
     <form method="post"  action="/api/auth/signin">
-    <h1 className="text-3xl font-semibold  text-white">Login</h1>
-    <div className="space-y-4 mt-5">
+    <h1 className="text-3xl font-semibold flex justify-center items-center  text-white">Login</h1>
+    <div className="space-y-4 mt-5 text-white">
         <Input type="email" name="email" placeholder="Email" onChange={(e)=>setEamil(e.target.value)} className="bg-[#333] placeholder:text-xs placeholder:text-gray-400 w-full inline-block" />
-        {/* <Input type="password" name="password" placeholder="Password" className="bg-[#333] placeholder:text-xs placeholder:text-gray-400 w-full  inline-block"/> */}
+        <Input  type="password" name="password" placeholder="Password" className="bg-[#333] placeholder:text-xs placeholder:text-gray-400 w-full  inline-block"/>
         <Button type="submit" variant="secondary" className="w-full bg-yellow-300"  > Sign In</Button>
     
     </div>
