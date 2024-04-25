@@ -3,27 +3,26 @@ import Navbar from "../components/Navbar"
 import { IngredientLists } from "../components/Input"
 import Poster from "../components/CookPoster"
 import Ingredients from "../components/Ingredients"
+import "./style.css"
 
 
 export default function HomePage(){
     return (
        <main>
-        <section>
-        <div className="overflow-hidden absolute  h-full">
+        <section className="min-h-screen">
+        <div className="overflow-hidden absolute h-[100vh] ">
             <Poster/>
              </div>
-             <div className="flex justify-center relative items-end h-[60vh]">
+             <div className="flex  justify-center relative items-end md:h-[70vh] sm:h-[40vh] ">
                <IngredientLists/>
              </div>
         </section>
-        <section className="flex pt-20 justify-center h-screen bg-slate-500">
-        <div className="w-5/6 h-5/6  relative bg-white ">
+        <section id="info" className="bg-cover bg-no-repeat  overflow-hidden overflow-y-auto pt-20  justify-center  h-screen bg-transparent">
+      
         <Ingredients/>
-        </div>
+        
         </section>
-        <section className="flex justify-center h-screen bg-slate-500">
-        <div className="w-5/6 h-5/6  bg-white "></div>
-        </section>
+
        </main>
     )
 }

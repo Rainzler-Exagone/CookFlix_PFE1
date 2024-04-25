@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
- provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
@@ -56,55 +56,45 @@ model VerificationToken {
 }
 
 model Ingredients {
-  id       String            @id @default(uuid())
-  name     String?
-  type     ingredienttype?
-  imagesrc String?
-  mealId   String?           @db.Uuid
-  Meal     Meal_Ingredient[]
+  id           String          @id @default(uuid())
+  name         String?         @unique
+  type         ingredienttype?
+  imagesrc     String?
+  Compositions Composition[]
+  Meal         Meal[]          @relation("IngredientsToMeal")
 }
 
 model Meal {
-  id              String            @id @db.Uuid
-  name            String?           @db.VarChar
-  image           String?           @db.VarChar
-  saisone         saisone?
-  difficulty      difficulty?
-  nutrition_facts String?
-  Ingredients     Meal_Ingredient[]
-  Nutrition_facts Nutrition_facts?  @relation(fields: [nutrition_facts], references: [id])
-  Rating          Rating[]
-}
-
-model Meal_Ingredient {
-
-
-
-  Ingredients   Ingredients? @relation(fields: [ingredientsId], references: [id])
-  ingredientsId String
-  Meal          Meal?        @relation(fields: [mealId], references: [id])
-  mealId        String      @db.Uuid
-
-  @@id([mealId,ingredientsId])
+  id                String            @id @default(uuid())
+  name              String?           @db.VarChar
+  image             String?           @db.VarChar
+  saisone           saisone[]
+  difficulty        difficulty?
+  nutrition_factsId String?           @unique
+  nutrition_facts   Nutrition_facts?  @relation(fields: [nutrition_factsId], references: [id])
+  composition       Composition[]
+  Rating            Rating[]
+  Ingredients       Ingredients[]     @relation("IngredientsToMeal")
 }
 
 model Nutrition_facts {
-  id          String @id
+  id          String @id @default(uuid())
   calorie     Float
   protein     Float
   fibre       Float
-  carb        Float
-  sucre       Float
+  carbs       Float
+  Sugars      Float
   sodium      Float
-  Fer         Float
+  iron        Float
   Fat         Float
   cholesterol Float
-  Meal        Meal[]
+  meal        Meal?
 }
 
 model Rating {
-  id     String  @id
-  mealId String? @db.Uuid
+  id     String  @id   @default(uuid())
+  mealId String? 
+  stars  Int?
   Meal   Meal?   @relation(fields: [mealId], references: [id])
   User   User?
 }
@@ -121,6 +111,23 @@ model Recipe {
   Events        occasions
   video         String?
 }
+
+model Composition {
+  id              String            @id @default(uuid())
+  ingredientsName String
+  quantity        Float
+  unit            String?
+  Ingredients     Ingredients       @relation(fields: [ingredientsName], references: [name])
+  meal            Meal[]
+}
+
+model Instruction {
+  id          String @id @default(uuid())
+  StepNo      Int
+  description String
+}
+
+
 
 enum difficulty {
   hard

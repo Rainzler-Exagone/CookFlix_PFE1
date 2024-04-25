@@ -1,106 +1,90 @@
-// "use client"
-// import { Autocomplete,TextField} from "@mui/material";
-// import { TextFieldProps } from "@mui/material";
-
-// import React, { useState } from "react";
- 
-// export const IngredientsLists = () => {
-//   const ingredients = ["Cat", "Dog", "Bird", "Pigeon"];
-//   const [selectedingredients, setSelectedingredients] = useState([ingredients[2], ingredients[3]]);
-//   const [petInputValue, setPetInputValue] = useState("");
- 
-//   console.log(selectedingredients);
- 
-//   return (
-//     <React.Fragment>
-//       <h5 style={{ marginBottom: "1rem", textAlign: "left" }}>
-//         You selected:{" "}
-//         <span style={{ color: "dodgerblue", fontWeight: "800" }}>
-//           {selectedingredients
-//             .map((pet, i, arr) =>
-//               arr.length > 1 && arr.length - 1 === i ? ` and ${pet}.` : pet
-//             )
-//             .join(", ") || "Nothing yet"}
-//         </span>
-//       </h5>
-//       <Autocomplete
-//         multiple
-//         defaultValue={selectedingredients}
-//         style={{ width: "40%" }}
-//         options={ingredients}
-//         onChange={(event, newIngredient) => {
-//           setSelectedingredients(newIngredient);
-//         }}
-//         inputValue={petInputValue}
-//         onInputChange={(event, newIngredientInputValue) => {
-//           setPetInputValue(newIngredientInputValue);
-//         }}
-//         renderInput={(params) => {
-//           return <TextField label='Select your favourite ingredients' {...params} />;
-//         }}
-//       ></Autocomplete>
-//     </React.Fragment>
-//   );
-// };
-
 "use client"
 import { Autocomplete, createTheme, TextField, ThemeProvider } from "@mui/material";
 import { orange, red } from "@mui/material/colors";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import prisma from "../utils/db";
+import { Button } from "@/components/ui/button";
 
-declare module '@mui/material/styles' {
-    interface Theme {
-      status: {
-        danger: string;
-      };
-    }
-    // allow configuration using `createTheme`
-    interface ThemeOptions {
-      status?: {
-        danger?: string;
-      };
-    }
-  }
+
+
+
+
+
+  
+
+
  
+
+
+
+export async function fetchSidebarItemsFromDatabase() {
+  let chunkSize = 9
+  let chunks = []
+  const arr: any[] = []
+  const response = await fetch('http://localhost:3000/api/items',{
+    method: 'GET',
+  });
+  
+  if (!response.ok) {
+    throw new Error('Failed to fetch sidebar items');
+  }
+  const data = await response.json();
+  console.log(data)
+  {
+    data.map((item:any) => {
+
+      console.log(item.name)
+      const count = arr.push(item.name)
+    })
+  }
+  // console.log(data)
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    chunks.push(arr.slice(i, i + chunkSize));
+}
+console.log(chunks)
+//return chunks;
+  return arr;
+
+  
+  
+}
+
   
 export const IngredientLists = () => {
-  const ingredients = ["Carrot", "Letus", "Potato", "Spinach","Salad","Bread","Salt","Scrum","Agile","Kanban","Butter","Soy sauce"];
+  const ingredients = fetchSidebarItemsFromDatabase
   const [selectedIngredients, setSelectedIngredients] = useState([]);
   const [ingredientInputValue, setIngredientInputValue] = useState("");
-  const [newoptions, setNewOptions] = useState(ingredients)
+  const [newoptions, setNewOptions] = useState([])
  
   console.log(selectedIngredients);
 
-  const theme = createTheme({
-    status: {
-      danger: red[500],
-    },
-  });
- 
+
+  
+  
+
+  
+  
+
+  useEffect(() => {
+    const  data = fetchSidebarItemsFromDatabase()
+    .then((data) => {setNewOptions(data);})
+    .catch((error : any) => {console.log(error) });
+  },[]);
+
   return (
-    <ThemeProvider theme={theme}>
-        
+
+     
+   
     <React.Fragment>
-      <h5 style={{ marginBottom: "1rem", textAlign: "left" }}>
-        {/* You selected:{" "}
-        <span style={{ color: "dodgerblue", fontWeight: "800" }}>
-          {selectedIngredients
-            .map((pet, i, arr) =>
-              arr.length > 1 && arr.length - 1 === i ? ` and ${pet}.` : pet
-            )
-            .join(", ") || "Nothing yet"}
-        </span> */}
-      </h5>
+      
       <Autocomplete
 
-        options={ingredients}
+        options={newoptions}
         multiple
         style={{ width: "80%"}}
         
-        className="bg-gray-100"
+        className="bg-white/55"
         onChange={(event, newIngredient:any) => {
-          setNewOptions(["Spinach"])
           setSelectedIngredients(newIngredient);
         }}
         inputValue={ingredientInputValue}
@@ -113,7 +97,6 @@ export const IngredientLists = () => {
         }}
       ></Autocomplete>
     </React.Fragment>
-    </ThemeProvider>
   );
 };
 

@@ -9,7 +9,7 @@ export default async function Home() {
  const session = await getServerSession(authOptions)
 
  if(!session){
-   return redirect('/home')
+   return redirect('/guest')
  }
  else{
    return redirect('/home')
