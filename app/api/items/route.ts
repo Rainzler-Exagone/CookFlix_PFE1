@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import prisma from "@/app/utils/db"
+import prisma from "../../utils/db"
 
 
 export async function GET(){
    try {
     const data = await prisma.ingredients.findMany({
-
         select: {
             id: true,
             name: true,

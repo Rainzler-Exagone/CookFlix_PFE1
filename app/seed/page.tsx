@@ -1,47 +1,104 @@
+"use client"
 import { Button } from "@/components/ui/button"
+import axios from "axios"
 import prisma from "../utils/db"
 import { CheckboxReactHookFormMultiple } from "../components/choosData"
 import { CheckboxReactHookFormSingle } from "../components/checkbox"
 import { SkeletonCard } from "../components/skeleton"
-import Els from "../components/els"
-import sharp from "sharp"
-import bg from "@/public/home-bg.jpeg"
+import { useEffect, useState } from "react"
+import { useParams } from "next/navigation"
+
+
+export async function fetchItemsFromDatabase(name:string[]) {
+  //  const name = [ 'Eggs', 'Sugar', 'Milk', 'Flour', 'Baking powder' ]
+  //   const queryParams = name.toString()
+    const response = await fetch(`http://localhost:3000/api/meals/${name}`, {
+      method: 'GET',
+    }
+    );
+  
+    if (!response.ok) {
+      throw new Error('Failed to fetch sidebar items');
+    }
+    const data = await response.json();
+    
+    return data;
+  }
+  
+
+// export const  getData = () =>{
+
+
+
+    
+//     const response =  axios.get("http://localhost:3000/api")
+//     .then(function(response) {
+//        console.log(response);
+       
+//     })
+//        .catch(function(error){console.log(error);
+//        })
+// }
 
 export default  function SeedDatabase() {
-    async function postData() {
-        "use server"
+    const [item, setItems] = useState("");
+    const name = [ 'Eggs', 'Sugar', 'Milk', 'Flour', 'Baking powder' ]
+  let a = ["Autumn","spring","summer","winter"]
+    useEffect(() => {
+         fetchItemsFromDatabase(a)
+         
+         .then(data=>{
+            console.log(data);
+         setItems(data);   
+         })
+         .catch(error=>{console.log(error);
+         })
+    }, []);
+    // async function postData() {
+    //     "use server"
 
-         await prisma.meal.create({
-
-          data : {
-                name : "Baba",
-                image : "https://utfs.io/f/0f71c8df-705c-46cb-8742-d491b3a4e6b4-11hbvg.jpg",
-                saisone: ['Autumn','spring','summer','winter'],
-                difficulty:"easy",
-                Ingredients : {connect:[{name: "Flour"},{name:"Eggs"},{name:"Sugar"},{name:"Milk"},{name:"Baking powder"}]},
-                 nutrition_facts: {
-                     connect: {
-                         id: "846604d7-ddf5-426c-8aa0-b44d92e4fff3"
-                     }
-                 },
-
-                Rating : {
-                    create:[{ stars: 3 }, { stars: 4 }]
-                },
-                 composition : {
-                   create:[{ingredientsName: "Flour",quantity:1.3,unit:"g"},{ingredientsName:"Sugar",quantity:2,unit:"Cup"},{ingredientsName:"Milk",quantity:1,unit:"Cup"},{ingredientsName:"Baking powder",quantity:1 , unit:"tea spoon"}]
-                 },
-                 }
-              }
+    //  const  data =  await prisma.meal.findFirst({
+    //             where:{
+    //                 Ingredients:{
+    //                     every:{
+    //                         name:{
+    //                          in:["Eggs","Sugar","Milk","Flour","Baking powder"]
+                            
+    //                         }
+    //                      },
+                        
+    //                 },
+                    
+    //             },
+    //             select:{
+    //                 name:true,
+    //                 Ingredients:{
+    //                     select:{
+    //                         name:true
+    //                     }
+    //                 }
+    //             }
+    //           })
+    //         console.log(data);
             
-       )
+    // }
+    // const [state, setstate] = useState();
+    // useEffect(() => {
+    //     const data = fetchItemsFromDatabase()
+           
+    //     return () => {
+            
+    //     };
+    // }, []);
 
-    }
+   const params = useParams()
+   console.log(params);
     return (
         <>
-            <div>
-                <form action={postData}>
-                    <Button type="submit" >Generate</Button>
+            <div  >
+                <form >
+                    <Button type="submit" >{JSON.stringify(a)}</Button>
+                    
                 </form>
             </div>
        

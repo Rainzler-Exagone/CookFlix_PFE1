@@ -10,14 +10,14 @@ export default function HomePage(){
     return (
        <main>
         <section className="min-h-screen">
-        <div className="overflow-hidden absolute h-[100vh] ">
+        <div  className=" overflow-hidden absolute h-[100vh] ">
             <Poster/>
              </div>
-             <div className="flex  justify-center relative items-end md:h-[70vh] sm:h-[40vh] ">
+             <div  className="flex  justify-center relative items-end md:h-[70vh] sm:h-[40vh] ">
                <IngredientLists/>
              </div>
         </section>
-        <section id="info" className="bg-cover bg-no-repeat  overflow-hidden overflow-y-auto pt-20  justify-center  h-screen bg-transparent">
+        <section id="info" className="scrollbar-hide bg-cover bg-no-repeat  overflow-hidden overflow-y-auto pt-20  justify-center  h-screen bg-transparent">
       
         <Ingredients/>
         

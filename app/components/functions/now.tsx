@@ -13,7 +13,6 @@ export async function fetchSidebarItemsFromDatabase() {
       throw new Error('Failed to fetch sidebar items');
     }
     const data = await response.json();
-    console.log(data)
     //
     var lata = data;
 
@@ -24,7 +23,6 @@ var result:any = Object.values(lata.reduce( (acc:any, obj) => {
     return acc;
 }, {}));
 
-     console.log(result);
 
 for (let i = 0; i < result.length; i++) {
  
