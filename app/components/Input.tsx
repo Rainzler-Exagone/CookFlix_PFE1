@@ -5,7 +5,15 @@ import React, { useEffect, useState } from "react";
 import prisma from "../utils/db";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
-
+import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import Spinner from "./Spinner";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import"./z.all.css"
+import { Navigation } from "swiper/modules";
+import Image from "next/image";
+import Link from "next/link";
 
 
 
@@ -19,8 +27,7 @@ import { Search } from "lucide-react";
 
 
 export async function fetchSidebarItemsFromDatabase() {
-  let chunkSize = 9
-  let chunks = []
+ 
   const arr: any[] = []
   const response = await fetch('http://localhost:3000/api/items', {
     method: 'GET',
@@ -38,11 +45,6 @@ export async function fetchSidebarItemsFromDatabase() {
       const count = arr.push(item.name)
     })
   }
-  // console.log(data)
-  for (let i = 0; i < arr.length; i += chunkSize) {
-    chunks.push(arr.slice(i, i + chunkSize));
-  }
-  console.log(chunks)
   //return chunks;
   return arr;
 
@@ -68,9 +70,13 @@ export async function getByIngredients(name: any) {
 
 export const IngredientLists = () => {
   const ingredients = fetchSidebarItemsFromDatabase
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [selectedIngredients, setSelectedIngredients] = useState<any>([]);
   const [ingredientInputValue, setIngredientInputValue] = useState("");
   const [newoptions, setNewOptions] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [meal, setMeal] = useState([])
+  const [id, setId] = useState();
+
 
   console.log(selectedIngredients);
 
@@ -78,8 +84,28 @@ export const IngredientLists = () => {
 
 
 
+  
+  
   const handleSearch = async () => {
-    await getByIngredients(selectedItems);
+
+    if (selectedIngredients != "") {
+      const search = await getByIngredients(selectedIngredients);
+      setMeal(search);
+      setId(search.id)
+      
+      
+
+
+    }
+    else {
+      console.log("empty")
+
+    }
+
+
+
+
+
   };
 
 
@@ -114,8 +140,55 @@ export const IngredientLists = () => {
           return <TextField label='Select your ingredients' {...params} />;
         }}
       ></Autocomplete>
+      <div className="md:w-32 md:ml-8 md:h-14 sm:w-10 sm:h-7 ">
+      <Drawer>
+          <DrawerTrigger asChild>
+            <Button onClick={handleSearch} className="w-32">Search</Button>
+          </DrawerTrigger>
+          <DrawerContent>
 
-      <Button onClick={handleSearch} className="md:w-32 md:ml-8 md:h-14 sm:w-10 sm:h-7   "><Search size={16} className="mr-3" /> Search </Button>
+            <div className="mx-auto w-full ">
+              <DrawerHeader className="flex justify-center">
+                <DrawerTitle>Choose your meal</DrawerTitle>
+              </DrawerHeader>
+              {loading ? (<Spinner />) : (
+                <div className="p-2  pb-0">
+                  <div className="flex   items-center justify-center ">
+                    <Swiper navigation={true}
+                      modules={[Navigation]}
+                    >
+
+
+                      {meal.map((item: any) => (
+                        <SwiperSlide key={item.id}>
+                          <div className="flex-1 text-center">
+                            <div className="text-7xl font-bold tracking-tighter">
+                              <div className="mt-3  h-[150px]">
+                                <Image alt="img" src={item.image} width={350} height={350} className="mb-5"/>
+
+                              </div>
+                            </div>
+                          </div>
+                          <DrawerFooter>
+                          <Link href={`http://localhost:3000/recipe/${item.id}`}>
+                            <Button className="w-36">Show Recipe</Button>
+                            </Link>
+
+                            <DrawerClose asChild>
+                              <Button variant="outline">Cancel</Button>
+                            </DrawerClose>
+                          </DrawerFooter>
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  </div>
+                </div>
+              )}
+            </div>
+          </DrawerContent>
+        </Drawer>
+      </div>
+      {/* <Button onClick={handleSearch} className="md:w-32 md:ml-8 md:h-14 sm:w-10 sm:h-7   "><Search size={16} className="mr-3" /> Search </Button> */}
     </React.Fragment>
   );
 };

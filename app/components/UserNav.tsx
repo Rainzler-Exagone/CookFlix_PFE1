@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import AvatarIcon from "./Avatar"
 import { signOut } from "next-auth/react"
-import { LogOut, Settings, User } from "lucide-react"
+import { Heart, LogOut, Settings, User } from "lucide-react"
 
 
 
@@ -31,6 +31,10 @@ export default function UserNav() {
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
 
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Heart className="mr-2 h-4 w-4" />
+              <span>Favorits</span>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
