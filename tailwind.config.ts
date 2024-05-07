@@ -1,3 +1,4 @@
+import { nextui } from "@nextui-org/react"
 import type { Config } from "tailwindcss"
 
 const config = {
@@ -55,6 +56,7 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        'abricot' : '#FFF4DF'
       },
       borderRadius: {
         lg: "var(--radius)",

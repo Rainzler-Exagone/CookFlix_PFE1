@@ -222,7 +222,7 @@ export default function Ingredients() {
                           </div>
                           <div className="flex justify-center text-sm text-center">
                             <input type="checkbox" id={el.name} value={el.name} onChange={checkboxhandler} className="mx-2 cursor-pointer" />
-                            <label htmlFor={el.name} className="self-center text-center ">{el.name}</label>
+                            <label htmlFor={el.name} className="self-center text-center cursor-pointer ">{el.name}</label>
                           </div>
                         </div>
                       ))}

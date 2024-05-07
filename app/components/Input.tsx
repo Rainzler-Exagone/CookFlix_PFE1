@@ -159,7 +159,7 @@ export const IngredientLists = () => {
                     >
 
 
-                      {meal.map((item: any) => (
+                      {/* {meal.map((item: any) => (
                         <SwiperSlide key={item.id}>
                           <div className="flex-1 text-center">
                             <div className="text-7xl font-bold tracking-tighter">
@@ -174,6 +174,26 @@ export const IngredientLists = () => {
                             <Button className="w-36">Show Recipe</Button>
                             </Link>
 
+                            <DrawerClose asChild>
+                              <Button variant="outline">Cancel</Button>
+                            </DrawerClose>
+                          </DrawerFooter>
+                        </SwiperSlide>
+                      ))} */}
+                        {meal.map((item: any) => (
+                        <SwiperSlide key={item.id}>
+                          <div className="flex-1 text-center">
+                            <div className="text-7xl font-bold tracking-tighter">
+                              <div className="mt-3  h-[120px]">
+                                <Image src={item.image} width={350} height={350} className="mb-5"/>
+
+                              </div>
+                            </div>
+                          </div>
+                          <DrawerFooter>
+                            <Link href={`http://localhost:3000/recipe/${item.id}`}>
+                            <Button className="w-36">Show Recipe</Button>
+                            </Link>
                             <DrawerClose asChild>
                               <Button variant="outline">Cancel</Button>
                             </DrawerClose>
