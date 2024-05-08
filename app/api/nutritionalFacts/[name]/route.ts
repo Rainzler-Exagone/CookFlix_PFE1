@@ -3,7 +3,7 @@ import prisma from "@/app/utils/db"
 import { NextApiRequest } from "next";
 
 
-export async function GET(req:NextApiRequest,{params}:{params: {id :string} }){
+export async function GET({params}:{params: {id :string} }){
   
       const name = params.id
       
