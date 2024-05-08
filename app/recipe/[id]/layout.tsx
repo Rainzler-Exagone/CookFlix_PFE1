@@ -1,7 +1,6 @@
 import { getServerSession } from "next-auth";
 import { Children, ReactNode } from "react";
 import Navbar from "../../components/Navbar"
-import {Providers} from "../../components/providers"
 import {
    Card,
    CardContent,
@@ -11,9 +10,12 @@ import {
    CardTitle,
  } from "@/components/ui/card"
 
+ import { redirect } from "next/navigation";
+
 
 export default async function HomeLayout({children}:{children : ReactNode}){
 
+  const session = getServerSession();
 
    return(
    

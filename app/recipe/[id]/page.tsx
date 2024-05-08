@@ -49,6 +49,7 @@ export default function Product({ params }: any) {
           setLoading(false)
           const mapedData = data.map((item: any) => item.Meal.nutrition_factsId)
           setFactsId(mapedData.toString())
+          
           const recipeId = data.map((item:any)=>item.id)
           setRecipeID(recipeId.toString())
           console.log(recipeId.toString());
@@ -62,10 +63,16 @@ export default function Product({ params }: any) {
   }, []);
 
 
-  useEffect(() => {
+  useEffect( () => {
+    
+
+
+    
     getNutritionalFacts(factsId)
       .then((data) => {
         setNutritional_facts(data);
+        console.log(data);
+        
       })
       .catch((error: any) => { console.log(error) });
 
@@ -88,6 +95,12 @@ export default function Product({ params }: any) {
     
 }
 
+const handleSubmit = async () => {
+ 
+
+  
+  
+}
 
 
 
@@ -190,7 +203,7 @@ export default function Product({ params }: any) {
                   recipe.map((el: any, index: any) => (
                     <div className="w-1/2 my-3 h-full ml-10" key={index}>
                       <div className="flex justify-between items-center">
-                        {/* {setFactsId(el.Meal.)} */}
+                        {/* {setse(el.Meal.)} */}
                         <Typography gutterBottom variant="h5" component="div" className="font-bold">
                           {el.Meal.name}
                         </Typography>

@@ -1,11 +1,13 @@
-export async function getNutritionalFacts(id:any) {
-    //  const name = [ 'Eggs', 'Sugar', 'Milk', 'Flour', 'Baking powder' ]
-    //   const queryParams = name.toString()
-      const response = await fetch(`http://localhost:3000/api/nutritionalFacts/${id}`, {
-        method: 'GET',
+export async function getNutritionalFacts(nutritionalFactsId:string) {
+    
+      const response = await fetch('http://localhost:3000/api/nutritionalFacts', {
+        method: 'POST',
+        body:JSON.stringify({
+         id:nutritionalFactsId
+        })
       }
       );
-    
+        
       if (!response.ok) {
         throw new Error('Failed to fetch nutritional_facts ');
       }

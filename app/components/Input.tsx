@@ -185,7 +185,7 @@ export const IngredientLists = () => {
                           <div className="flex-1 text-center">
                             <div className="text-7xl font-bold tracking-tighter">
                               <div className="mt-3  h-[120px]">
-                                <Image src={item.image} width={350} height={350} className="mb-5"/>
+                                <Image alt="image" src={item.image} width={350} height={350} className="mb-5"/>
 
                               </div>
                             </div>

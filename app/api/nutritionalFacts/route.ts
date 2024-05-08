@@ -1,17 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/utils/db"
-import { NextApiRequest } from "next";
 
-
-export async function GET({params}:{params: {id :string} }){
+interface RequestBody {
+   id: string;
+}
+export async function POST(request:Request){
   
-      const name = params.id
+      const body:RequestBody = await request.json()
       
    try {
       
       const data = await prisma.nutrition_facts.findMany({
          where:{
-           id:name
+           id:body.id
          },select:{
             calorie:true,
             carbs:true,
