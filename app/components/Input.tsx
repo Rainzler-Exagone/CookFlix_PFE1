@@ -29,7 +29,7 @@ import Link from "next/link";
 export async function fetchSidebarItemsFromDatabase() {
  
   const arr: any[] = []
-  const response = await fetch('http://localhost:3000/api/items', {
+  const response = await fetch('http://localhost:3000/api/ordered_items', {
     method: 'GET',
   });
 

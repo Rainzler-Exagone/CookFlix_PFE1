@@ -1,11 +1,6 @@
 "use client"
 import { FormEvent, useEffect, useState } from "react";
-// import { getRecipeById } from "../../components/functions/getRecipe"
-import { getByIngredients } from "../../components/functions/call"
-import YoutubeEmbed from "../../components/VideoEmbed"
-import Navbar from "@/app/components/Navbar";
 import "./style.css"
-// import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getRecipeById } from "@/app/components/functions/Recipe_Meal"
 import { getNutritionalFacts } from "@/app/components/functions/getNutritionalFacts"
 import Card from '@mui/material/Card';
@@ -20,6 +15,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge"
 import Spinner from "@/app/components/Spinner";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 
 
 export default function Product({ params }: any) {
@@ -27,12 +23,19 @@ export default function Product({ params }: any) {
   const [recipe, setRecipe] = useState<any>([])
   const [nutritional_facts, setNutritional_facts] = useState<any>([])
   const [factsId, setFactsId] = useState<any>();
+  const [userId, setUserId] = useState<null | string>();
   const [id, setId] = useState();
   const [value, setValue] = useState<null | number>();
   const [Index, setIndex] = useState<any>()
   const [loading, setLoading] = useState(true);
+  const [recipeID, setRecipeID] = useState();
 
-
+  const {data:session} = useSession()
+  const userID = session?.user?.id
+  
+  
+  
+ 
 
   useEffect(() => {
     setLoading(true)
@@ -40,13 +43,16 @@ export default function Product({ params }: any) {
       .then((data) => {
         setRecipe(data);
         
+        
+        
         if (data && data.length > 0) {
           setLoading(false)
           const mapedData = data.map((item: any) => item.Meal.nutrition_factsId)
           setFactsId(mapedData.toString())
-          console.log(mapedData.toString())
-
-        }
+          const recipeId = data.map((item:any)=>item.id)
+          setRecipeID(recipeId.toString())
+          console.log(recipeId.toString());
+           }
 
       })
       .catch((error: any) => { console.log(error)
@@ -66,6 +72,21 @@ export default function Product({ params }: any) {
 
 
   }, []);
+
+  const handlefavorit = async () => {
+   
+    const response = await fetch('/api/favorit', {
+        method: "POST",
+        body: JSON.stringify({
+          userId: userID,
+          recipeId : recipeID
+        })
+    });
+  
+   console.log(response);
+   
+    
+}
 
 
 
@@ -173,9 +194,11 @@ export default function Product({ params }: any) {
                         <Typography gutterBottom variant="h5" component="div" className="font-bold">
                           {el.Meal.name}
                         </Typography>
-                        <Button  variant="outline" size="icon">
+                        <form onSubmit={handlefavorit}>
+                        <Button type="submit"  variant="outline" size="icon">
                           <Heart  />
                         </Button>
+                        </form>
                       </div>
                       <div>
     
