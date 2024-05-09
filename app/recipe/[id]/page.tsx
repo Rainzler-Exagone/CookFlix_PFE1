@@ -3,6 +3,7 @@ import { FormEvent, useEffect, useState } from "react";
 import "./style.css"
 import { getRecipeById } from "@/app/components/functions/Recipe_Meal"
 import { getNutritionalFacts } from "@/app/components/functions/getNutritionalFacts"
+import {checkFavorit} from "@/app/components/functions/checkFavorit"
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -28,7 +29,8 @@ export default function Product({ params }: any) {
   const [value, setValue] = useState<null | number>();
   const [Index, setIndex] = useState<any>()
   const [loading, setLoading] = useState(true);
-  const [recipeID, setRecipeID] = useState();
+  const [recipeID, setRecipeID] = useState<null | string>();
+ const [favorit, setFavorit] = useState(false);
 
   const {data:session} = useSession()
   const userID = session?.user?.id
@@ -42,6 +44,8 @@ export default function Product({ params }: any) {
     getRecipeById(params)
       .then((data) => {
         setRecipe(data);
+        console.log(data);
+        
         
         
         
@@ -95,12 +99,25 @@ export default function Product({ params }: any) {
     
 }
 
-const handleSubmit = async () => {
- 
 
-  
-  
-}
+
+  useEffect( () => {
+    
+
+
+    checkFavorit(userID,recipeID)
+      .then((data) => {
+        console.log(data);
+        {data? setFavorit(true) : setFavorit(false)}
+        
+        
+      })
+      .catch((error: any) => { console.log(error) });
+
+
+
+  }, []);
+
 
 
 
@@ -209,7 +226,7 @@ const handleSubmit = async () => {
                         </Typography>
                         <form onSubmit={handlefavorit}>
                         <Button type="submit"  variant="outline" size="icon">
-                          <Heart  />
+                          <Heart  className={favorit ? "text-red-500" : "text-green-500"} />
                         </Button>
                         </form>
                       </div>

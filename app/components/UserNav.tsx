@@ -12,6 +12,7 @@ import {
 import AvatarIcon from "./Avatar"
 import { signOut } from "next-auth/react"
 import { Heart, LogOut, Settings, User } from "lucide-react"
+import Link from "next/link"
 
 
 
@@ -27,11 +28,14 @@ export default function UserNav() {
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <Link href="/profile">
             <DropdownMenuItem>
+              
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
-
+             
             </DropdownMenuItem>
+            </Link>
             <DropdownMenuItem>
               <Heart className="mr-2 h-4 w-4" />
               <span>Favorits</span>

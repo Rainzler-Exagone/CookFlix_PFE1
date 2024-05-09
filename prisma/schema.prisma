@@ -63,6 +63,8 @@ model Favorit {
 
   Recipe   Recipe? @relation(fields: [recipeId], references: [id])
   recipeId String?
+
+  @@unique([userId,recipeId])
 }
 
 model VerificationToken {

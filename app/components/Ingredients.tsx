@@ -98,7 +98,6 @@ export default function Ingredients() {
     fetchSidebarItemsFromDatabase()
       .then((data) => {
         setItems(data);
-        console.log(items);
         setLoading(false)
       })
 
@@ -149,8 +148,12 @@ export default function Ingredients() {
 
   return (
     <section className="flex-col justify-center scrollbar-hide">
+        {loading ? ( <div className="h-screen flex justify-center items-center"><Spinner/></div>):(
 
-      <div className="w-screen flex justify-center">
+
+<>
+
+<div className="w-screen flex justify-center">
         <Drawer>
           <DrawerTrigger asChild>
             <Button onClick={handleSearch} className="w-32">Search</Button>
@@ -237,7 +240,9 @@ export default function Ingredients() {
           </div>
         ))
       }
-
+</>
+        )}
+      
 
 
     </section>
