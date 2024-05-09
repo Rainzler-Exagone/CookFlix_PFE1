@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 export default  function AvatarIcon() {
     // const session = await getServerSession(authOptions)
     const {data:session} = useSession()
+    const avatar = session?.user?.image as string
     
     
     
@@ -14,7 +15,7 @@ export default  function AvatarIcon() {
     return (
         <>
            <Avatar>
-  <AvatarImage src={session?.user?.image} />
+  <AvatarImage src={avatar} />
   <AvatarFallback>CN</AvatarFallback>
 </Avatar>
 
