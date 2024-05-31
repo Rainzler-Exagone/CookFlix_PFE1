@@ -8,23 +8,31 @@ import Poster from "../components/CookPoster";
 
 export default async function HomeLayout({children}:{children : ReactNode}){
     const session = await getServerSession(authOptions)
+    
 
     if(!session){
        return redirect("/guest")
+    }else{
+      
+    if (session.user?.email=="admin@gmail.com") {
+      return redirect("/admin")
     }
-   return(
-   
-<>
-
-
-         <Navbar />
-         <main >
-            {children}
-         </main>
-
-</>
+      
+      return(
+         
+         <>
+         
+         
+                  <Navbar />
+                  <main >
+                     {children}
+                  </main>
+         
+         </>
+             
+            )
+    }
     
-   )
     
 
 }

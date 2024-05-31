@@ -5,7 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox"
 import { z } from "zod";
+import {ChevronDown } from "lucide-react"
+import { LiaCheeseSolid } from "react-icons/lia";
+
 import { redirect } from "next/navigation";
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
 import {
   Drawer,
   DrawerClose,
@@ -25,7 +31,7 @@ import { fetchPantryfromdatabase } from "./fetch/fetchPentry"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Search } from "lucide-react";
 import Spinner from "./Spinner"
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { fetchSidebarItemsFromDatabase } from "./functions/now";
 import { getByIngredients } from "./functions/call"
 import 'swiper/css';
@@ -33,8 +39,14 @@ import 'swiper/css/navigation';
 import './z.all.css'
 import Image from "next/image";
 import Link from "next/link";
+// import {
+//   Collapsible,
+//   CollapsibleContent,
+//   CollapsibleTrigger,
+// } from "@/components/ui/collapsible"
+import {CaretSortIcon} from "@radix-ui/react-icons"
 
-
+import Collapsible from 'react-collapsible'
 
 
 
@@ -61,6 +73,7 @@ export default function Ingredients() {
   const [id, setId] = useState();
   const [selectedItems, setSelectedItems] = useState<any>([]);
   const typesArr = ["Pantry Essentiels","Vegetables & Greens","Cheeses","Dairy","Meats","Fishes & Seafood","Nuts & Seeds"]
+  const iconsArr = [<LiaCheeseSolid key="0" />]
 
 
 
@@ -148,10 +161,7 @@ export default function Ingredients() {
 
   return (
     <section className="flex-col justify-center scrollbar-hide">
-        {loading ? ( <div className="h-screen flex justify-center items-center"><Spinner/></div>):(
-
-
-<>
+       
 
 <div className="w-screen flex justify-center">
         <Drawer>
@@ -171,13 +181,69 @@ export default function Ingredients() {
                       modules={[Navigation]}
                     >
                     
+                       {meal.length == 1 ? (
+                        <>
+                        
+                        
+                        {meal.map((item: any) => (
+                         <SwiperSlide key={item.id}>
+                           <div className="flex-1 text-center">
+                             <div className="text-7xl font-bold tracking-tighter">
+                               <div className="mt-3  h-[120px]">
+                                 <Image alt="image" src={item.image} height="340" width="340"  className="mb-5"/>
+ 
+                               </div>
+                             </div>
+                           </div>
+                           <DrawerFooter>
+                             <Link href={`http://localhost:3000/recipe/${item.id}`}>
+                             <Button className="w-36">Show Recipe</Button>
+                             </Link>
+                             <DrawerClose asChild>
+                               <Button variant="outline">Cancel</Button>
+                             </DrawerClose>
+                           </DrawerFooter>
+                         </SwiperSlide>
+                       ))}
+                        </>
+                       ):(
+                        <>
+                        
+                        {meal.map((item: any) => (
+                          <SwiperSlide  key={item.id}>
+                            <div className="flex justify-center text-center">
+                              {/* <div className="text-7xl font-bold tracking-tighter">*/}
+                                <div className="w-1/3  h-[120px]"> 
+                                 
+                                  <Image alt="image" src={item.image} height="340" width="340"  className="mb-5"/>
+                                  </div>
+                                {/* 
+                              </div> */}
+                            </div>
+                            <DrawerFooter>
+                              <div className="w-full flex justify-center">
+                                
+                              <Link href={`http://localhost:3000/recipe/${item.id}`}>
+                              <Button className="w-36">Show Recipe</Button>
+                              </Link>
+                              </div>
+                              <DrawerClose asChild>
+                              <div className="w-full flex justify-center">
 
-                      {meal.map((item: any) => (
+                                <Button variant="outline" className="w-48">Cancel</Button>
+                              </div>
+                              </DrawerClose>
+                            </DrawerFooter>
+                          </SwiperSlide>
+                        ))}
+                        </>
+                       )}
+                      {/* {meal.map((item: any) => (
                         <SwiperSlide key={item.id}>
                           <div className="flex-1 text-center">
                             <div className="text-7xl font-bold tracking-tighter">
                               <div className="mt-3  h-[120px]">
-                                <Image alt="image" src={item.image} width={350} height={350} className="mb-5"/>
+                                <Image alt="image" src={item.image} height="340" width="340"  className="mb-5"/>
 
                               </div>
                             </div>
@@ -191,7 +257,7 @@ export default function Ingredients() {
                             </DrawerClose>
                           </DrawerFooter>
                         </SwiperSlide>
-                      ))}
+                      ))} */}
                     </Swiper>
                   </div>
                 </div>
@@ -200,17 +266,25 @@ export default function Ingredients() {
           </DrawerContent>
         </Drawer>
       </div>
-
-
+      
+       
       {
         items.map((item: any, index: any) => (
-
-          <div key={index} className="h-6/5 w-6/4 m-10 items-center bg-white/30 backdrop-blur-md overflow-hidden rounded-2xl">
-            <h1 className="text-3xl pt-2 text-center">{typesArr[index]}</h1>
+         
+          <div className="flex justify-center mt-5 w-full" key={index}>
+              <Accordion className="rounded-lg w-2/3 py-3  bg-white/30 backdrop-blur-md">
+            <AccordionSummary
+             expandIcon={<ExpandMoreIcon />}
+             aria-controls="panel1-content"
+             id="panel1-header"
+            >{typesArr[index]} {iconsArr[index]}</AccordionSummary>
+            <AccordionDetails>
+          <div key={index} className="h-6/5 w-6/4  items-center bg-white/30 backdrop-blur-md overflow-hidden rounded-2xl">
+            {/* <h1 className="text-3xl pt-2 text-center">{typesArr[index]}</h1> */}
             <div className="">
               <Swiper key={index} navigation={true}
                 modules={[Navigation]}
-              >
+                >
                 {/* <div className="p-5 flex self-end overflow-x-scroll scrollbar-hide min-h-[100%] md:grid-cols-3"> */}
                 {item.map((ingredient: any, index: any) => (
                   <SwiperSlide key={ingredient.id}>
@@ -238,11 +312,13 @@ export default function Ingredients() {
             </div>
 
           </div>
+          </AccordionDetails>
+          </Accordion>
+          </div>
+            
         ))
       }
-</>
-        )}
-      
+
 
 
     </section>

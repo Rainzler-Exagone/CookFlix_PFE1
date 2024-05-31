@@ -9,11 +9,11 @@ import "./style.css"
 export default function HomePage(){
     return (
        <main>
-        <section  className="min-h-screen">
+        <section id="min"  className="min-h-screen">
         <div className="absolute overflow-hidden  h-[100vh] ">
             <Poster/>
              </div>
-             <div  className="flex  justify-center relative items-end md:h-[70vh] sm:h-[40vh] ">
+             <div className="flex  justify-center items-center relative md:h-[100vh] sm:h-[40vh] ">
                <IngredientLists/>
              </div>
         </section>

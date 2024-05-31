@@ -12,7 +12,10 @@ export async function POST(request:Request){
       
       const data = await prisma.nutrition_facts.findMany({
          where:{
-           id:body.id
+          
+            meal:{
+               id:body.id
+            }
          },select:{
             calorie:true,
             carbs:true,

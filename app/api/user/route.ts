@@ -19,6 +19,13 @@ export async function POST(request:Request){
         }
     })
      
+    if (user) {
+        await prisma.profile.create({
+            data:{
+                userId: user.id
+            }
+        })
+    }
     const {password,...result} = user
     
     return new Response(JSON.stringify(result))

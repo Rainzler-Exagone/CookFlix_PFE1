@@ -31,29 +31,23 @@ export default function Product({ params }: any) {
   const [loading, setLoading] = useState(true);
   const [recipeID, setRecipeID] = useState<null | string>();
  const [favorit, setFavorit] = useState(false);
+ const [loadingFact, setloadingFact] = useState(true);
 
   const {data:session} = useSession()
   const userID = session?.user?.id
   
   
   
- 
 
   useEffect(() => {
     setLoading(true)
-    getRecipeById(params)
+    getRecipeById(params.id)
       .then((data) => {
         setRecipe(data);
-        console.log(data);
-        
-        
-        
-        
+        console.log(data); 
+
         if (data && data.length > 0) {
           setLoading(false)
-          const mapedData = data.map((item: any) => item.Meal.nutrition_factsId)
-          setFactsId(mapedData.toString())
-          
           const recipeId = data.map((item:any)=>item.id)
           setRecipeID(recipeId.toString())
           console.log(recipeId.toString());
@@ -65,58 +59,69 @@ export default function Product({ params }: any) {
         setLoading(false)
        });
   }, []);
+ 
+
+useEffect( ()  => {      
+  getNutritionalFacts(params.id)
+    .then((data) => { 
+      setNutritional_facts(data);
+      console.log(data);
+      console.log(data);
+     })
+    .catch((error: any) => { console.log(error) });
+}, []);
 
 
-  useEffect( () => {
-    
-
-
-    
-    getNutritionalFacts(factsId)
-      .then((data) => {
-        setNutritional_facts(data);
-        console.log(data);
-        
-      })
-      .catch((error: any) => { console.log(error) });
-
-
-
-  }, []);
 
   const handlefavorit = async () => {
    
-    const response = await fetch('/api/favorit', {
-        method: "POST",
-        body: JSON.stringify({
-          userId: userID,
-          recipeId : recipeID
-        })
-    });
+    const response = await fetch('/api/favoritt', {
+      method: "POST",
+      body: JSON.stringify({
+        userId: userID,
+        recipeId : recipeID
+      })
+      
+  })
+  console.log(response);
+        
+  if (!response.ok) {
+    throw new Error('Failed ');
+  }
+  const data = await response.json();
+  console.log(data);
   
-   console.log(response);
-   
-    
+  return data;
+
+  
+
+  
 }
 
+// useEffect(() => {
+//   handlefavorit(userID,recipeID)
+   
+// }, []);
 
-
-  useEffect( () => {
+  // useEffect( () => {
     
 
 
-    checkFavorit(userID,recipeID)
-      .then((data) => {
-        console.log(data);
-        {data? setFavorit(true) : setFavorit(false)}
+  //   checkFavorit(userID,recipeID)
+    
+  //     .then((data) => {
+  //       console.log(data);
+  //       console.log(data);
+        
+  //       {data >  0 ? setFavorit(true) : setFavorit(false)}
         
         
-      })
-      .catch((error: any) => { console.log(error) });
+  //     })
+  //     .catch((error: any) => { console.log(error) });
 
 
 
-  }, []);
+  // }, []);
 
 
 
@@ -127,34 +132,6 @@ export default function Product({ params }: any) {
     <>
       <section className="flex  m-4">
 
-        {/* <Card sx={{ maxWidth: 300 }}>
-        {
-          recipe.map((el:any,index:any)=>(
-             <CardActionArea key={index}>
-            <CardMedia
-            key={index}
-          component="img"
-          height="140"
-          image={el.Meal.image}
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {el.Meal.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {el.Description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-           ))
-        }
-      <CardActions>
-        <Button size="small" className="text-red-500">
-          <Heart/>
-        </Button>
-      </CardActions>
-    </Card> */}
 
         <Card sx={{ maxWidth: 1326 }} className="w-full flex items-center bg-abricot ">
 

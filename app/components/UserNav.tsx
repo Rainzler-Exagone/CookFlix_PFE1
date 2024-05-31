@@ -13,6 +13,7 @@ import AvatarIcon from "./Avatar"
 import { signOut } from "next-auth/react"
 import { Heart, LogOut, Settings, User } from "lucide-react"
 import Link from "next/link"
+import { Avatar } from "@mui/material"
 
 
 
@@ -21,6 +22,7 @@ export default function UserNav() {
   return (
     <>
       <div>
+      
         <DropdownMenu>
           <DropdownMenuTrigger>
             <AvatarIcon />

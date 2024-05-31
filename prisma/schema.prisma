@@ -94,6 +94,7 @@ model Meal {
   nutrition_facts   Nutrition_facts? @relation(fields: [nutrition_factsId], references: [id])
   recipe            Recipe?
   Ingredients       Ingredients[]    @relation("IngredientsToMeal")
+  category      category?
 }
 
 model Nutrition_facts {
