@@ -7,12 +7,13 @@ import UserNav from "./UserNav";
 import Image from "next/image";
 import Logo from "./Logo"
 import { Button } from "@/components/ui/button";
+import { Url, UrlObject } from "url";
 
 
 
 interface linkProps {
-    name: String,
-    href: String,
+    name: string,
+    href: string ,
 }
 
 const links: linkProps[] = [
@@ -25,7 +26,6 @@ const links: linkProps[] = [
 export default function Navbar() {
 
     const pathName = usePathname()
-
     return (
 
         <div className="w-full mx-auto items-center  py-5 bg-yellow-500 justify-between px-5 sm:px-6 lg:px-8 flex ">
@@ -38,6 +38,7 @@ export default function Navbar() {
                     {links.map((link, idx) => (
                         <div key={idx}  >
                             {pathName === link.href ? (
+
                                 <li>
                                     <Link href={link.href} className="text-white">{link.name}</Link>
                                 </li>
@@ -50,7 +51,7 @@ export default function Navbar() {
 
             </div>
             <div className="flex items-center gap-x-8 mt-5 ">
-                <Search  className="cursor-pointer"/>
+                <Search className="cursor-pointer" />
                 <Link href="/login"><Button variant={"destructive"}  >Sign In</Button></Link>
             </div>
         </div>

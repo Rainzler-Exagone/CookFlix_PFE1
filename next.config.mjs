@@ -34,7 +34,12 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'nextui.org',
                 port: '',
-            }
+            },
+            {
+                protocol: 'https',
+                hostname: 'platform-lookaside.fbsbx.com',
+                port: '',
+            },
 
         ]
     },

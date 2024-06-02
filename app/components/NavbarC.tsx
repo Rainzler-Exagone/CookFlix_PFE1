@@ -11,8 +11,8 @@ import Logo from "./Logo"
 
 
 interface linkProps {
-    name: String,
-    href: String,
+    name: string,
+    href: string,
 }
 
 const links: linkProps[] = [

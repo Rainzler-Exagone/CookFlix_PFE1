@@ -111,7 +111,7 @@ export const IngredientLists = () => {
 
   useEffect(() => {
     const data = fetchSidebarItemsFromDatabase()
-      .then((data) => { setNewOptions(data); })
+      .then((data:any) => { setNewOptions(data); })
       .catch((error: any) => { console.log(error) });
   }, []);
 
@@ -180,26 +180,63 @@ export const IngredientLists = () => {
                           </DrawerFooter>
                         </SwiperSlide>
                       ))} */}
+                        {meal.length == 1 ? (
+                        <>
+                        
+                        
                         {meal.map((item: any) => (
-                        <SwiperSlide key={item.id}>
-                          <div className="flex-1 text-center">
-                            <div className="text-7xl font-bold tracking-tighter">
-                              <div className="mt-3  h-[120px]">
-                                <Image alt="image" src={item.image} height="340" width="340" className="mb-5"/>
-
-                              </div>
+                         <SwiperSlide key={item.id}>
+                           <div className="flex-1 text-center">
+                             <div className="text-7xl font-bold tracking-tighter">
+                               <div className="mt-3  h-[120px]">
+                                 <Image alt="image" src={item.image} height="340" width="340"  className="mb-5"/>
+ 
+                               </div>
+                             </div>
+                           </div>
+                           <DrawerFooter>
+                             <Link href={`http://localhost:3000/recipe/${item.id}`}>
+                             <Button className="w-36">Show Recipe</Button>
+                             </Link>
+                             <DrawerClose asChild>
+                               <Button variant="outline">Cancel</Button>
+                             </DrawerClose>
+                           </DrawerFooter>
+                         </SwiperSlide>
+                       ))}
+                        </>
+                       ):(
+                        <>
+                        
+                        {meal.map((item: any) => (
+                          <SwiperSlide  key={item.id}>
+                            <div className="flex justify-center text-center">
+                              {/* <div className="text-7xl font-bold tracking-tighter">*/}
+                                <div className="w-1/3  h-[120px]"> 
+                                 
+                                  <Image alt="image" src={item.image} height="340" width="340"  className="mb-5"/>
+                                  </div>
+                                {/* 
+                              </div> */}
                             </div>
-                          </div>
-                          <DrawerFooter>
-                            <Link href={`http://localhost:3000/recipe/${item.id}`}>
-                            <Button className="w-36">Show Recipe</Button>
-                            </Link>
-                            <DrawerClose asChild>
-                              <Button variant="outline">Cancel</Button>
-                            </DrawerClose>
-                          </DrawerFooter>
-                        </SwiperSlide>
-                      ))}
+                            <DrawerFooter>
+                              <div className="w-full flex justify-center">
+                                
+                              <Link href={`http://localhost:3000/recipe/${item.id}`}>
+                              <Button className="w-36">Show Recipe</Button>
+                              </Link>
+                              </div>
+                              <DrawerClose asChild>
+                              <div className="w-full flex justify-center">
+
+                                <Button variant="outline" className="w-48">Cancel</Button>
+                              </div>
+                              </DrawerClose>
+                            </DrawerFooter>
+                          </SwiperSlide>
+                        ))}
+                        </>
+                       )}
                     </Swiper>
                   </div>
                 </div>

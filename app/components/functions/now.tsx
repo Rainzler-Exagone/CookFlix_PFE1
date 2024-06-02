@@ -16,7 +16,7 @@ export async function fetchSidebarItemsFromDatabase() {
     //
     var lata = data;
 
-var result:any = Object.values(lata.reduce( (acc:any, obj) => {
+var result:any = Object.values(lata.reduce( (acc:any, obj:any) => {
     acc[obj.type] = acc[obj.type] || [];
     acc[obj.type].push(obj);
 

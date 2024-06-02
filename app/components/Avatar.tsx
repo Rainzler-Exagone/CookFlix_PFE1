@@ -9,14 +9,15 @@ export default  function AvatarIcon() {
     const {data:session} = useSession()
     const avatar = session?.user?.image as string
     
-    
+       
+        
     
     
 
     return (
         <>
         <Avatar alt="Remy Sharp" src={avatar} />
-
+          
         </>
     )
 }

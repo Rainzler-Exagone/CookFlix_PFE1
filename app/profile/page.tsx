@@ -12,6 +12,15 @@ import { Button } from "@/components/ui/button";
 import Divider from '@mui/material/Divider';
 import { Separator } from "@/components/ui/separator"
  import ImageUpload from "@/app/components/imageUploader"
+ import {setImage} from "@/app/components/functions/setProfileImage"
+import Image from 'next/image';
+
+// import {
+//   Avatar,
+//   AvatarFallback,
+//   AvatarImage,
+// } from "@/components/ui/avatar"
+
 
 
 
@@ -19,30 +28,44 @@ import { Separator } from "@/components/ui/separator"
 
 export default function MediaCard() {
     const {data: session} = useSession()
-    const avatar = session?.user?.image as string
-    const username = session?.user?.name as string
-    const userId = session?.user?.id as string
-    const email = session?.user?.email as string
+    const avatar = session?.user?.image! 
+    const username = session?.user?.name 
+    const userId:any = session?.user?.id
+    const email = session?.user?.email 
+  
 
-    useEffect(() => {
-      getProfile(userId)
-     .then((data)=>{console.log(data);
-     })
-     .catch((error)=>{console.log(error);
-     })
-    }, []);
+    console.log(session);
+    
+
+    // useEffect(() => {
+    //   getProfile(userId)
+    //  .then((data)=>{console.log(data);
+    //   console.log(session);
+      
+    //  })
+    //  .catch((error)=>{console.log(error);
+    //  })
+    // }, []);
   return (
     <>
     <Card  className=' m-5 h-[79vh]'>
+          
          <div className='flex justify-center p-4  items-end '>
          <ImageUpload />           
          <Avatar
            alt='avatar'
-           src={avatar}
+           src={session?.user.image as string}
            sx={{ width: 120, height: 120 }}
            className=''
            >
-           </Avatar>
+            </Avatar>
+           
+
+{/* <Avatar>
+      <AvatarImage src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=757989949620595&height=50&width=50&ext=1717174625&hash=AbaOEIXESbCRbWRs0CUVicAN"
+ alt="@shadcn" />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar> */}
            
            <Button className='bg-red-700 m-4 ' variant="destructive">Delete</Button>
          

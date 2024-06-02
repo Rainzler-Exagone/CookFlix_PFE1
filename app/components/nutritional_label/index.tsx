@@ -113,7 +113,7 @@ interface NutritionLabelProps {
   //?=maybe for type
 }
 
-const NutritionLabel: React.SFC<NutritionLabelProps> = (props: NutritionLabelProps) => {
+const NutritionLabel: React.FC<NutritionLabelProps> = (props: NutritionLabelProps) => {
   return (
     <LabelContainer backgroundColor={props.backgroundColor}>
       <Title>Nutrition Facts</Title>

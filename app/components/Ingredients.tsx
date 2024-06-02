@@ -1,11 +1,12 @@
 "use client"
+import { CiBowlNoodles } from "react-icons/ci";
 import prisma from "../utils/db";
 import { FormEvent, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox"
 import { z } from "zod";
-import {ChevronDown } from "lucide-react"
+import {Beef, ChevronDown, Drumstick, FishSymbol, LeafyGreen, Milk, Nut } from "lucide-react"
 import { LiaCheeseSolid } from "react-icons/lia";
 
 import { redirect } from "next/navigation";
@@ -53,7 +54,6 @@ import Collapsible from 'react-collapsible'
 
 
 
-
 const FormSchema = z.object({
   items: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one item.",
@@ -73,7 +73,7 @@ export default function Ingredients() {
   const [id, setId] = useState();
   const [selectedItems, setSelectedItems] = useState<any>([]);
   const typesArr = ["Pantry Essentiels","Vegetables & Greens","Cheeses","Dairy","Meats","Fishes & Seafood","Nuts & Seeds"]
-  const iconsArr = [<LiaCheeseSolid key="0" />]
+  const iconsArr = [<LeafyGreen key='0' />,<LiaCheeseSolid key="1" />, <Beef key='2' />,<Milk key='3' />, <Drumstick key='4' />,  <FishSymbol key='5' /> , <Nut key='6' /> , <CiBowlNoodles key='7' />]
 
 
 
@@ -109,7 +109,7 @@ export default function Ingredients() {
   useEffect(() => {
     setLoading(true)
     fetchSidebarItemsFromDatabase()
-      .then((data) => {
+      .then((data:any) => {
         setItems(data);
         setLoading(false)
       })
@@ -238,26 +238,7 @@ export default function Ingredients() {
                         ))}
                         </>
                        )}
-                      {/* {meal.map((item: any) => (
-                        <SwiperSlide key={item.id}>
-                          <div className="flex-1 text-center">
-                            <div className="text-7xl font-bold tracking-tighter">
-                              <div className="mt-3  h-[120px]">
-                                <Image alt="image" src={item.image} height="340" width="340"  className="mb-5"/>
-
-                              </div>
-                            </div>
-                          </div>
-                          <DrawerFooter>
-                            <Link href={`http://localhost:3000/recipe/${item.id}`}>
-                            <Button className="w-36">Show Recipe</Button>
-                            </Link>
-                            <DrawerClose asChild>
-                              <Button variant="outline">Cancel</Button>
-                            </DrawerClose>
-                          </DrawerFooter>
-                        </SwiperSlide>
-                      ))} */}
+                    
                     </Swiper>
                   </div>
                 </div>
@@ -277,7 +258,8 @@ export default function Ingredients() {
              expandIcon={<ExpandMoreIcon />}
              aria-controls="panel1-content"
              id="panel1-header"
-            >{typesArr[index]} {iconsArr[index]}</AccordionSummary>
+             
+            ><div className=" mx-8">{typesArr[index]} </div><div >{iconsArr[index]}</div></AccordionSummary>
             <AccordionDetails>
           <div key={index} className="h-6/5 w-6/4  items-center bg-white/30 backdrop-blur-md overflow-hidden rounded-2xl">
             {/* <h1 className="text-3xl pt-2 text-center">{typesArr[index]}</h1> */}

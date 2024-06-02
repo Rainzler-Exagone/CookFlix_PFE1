@@ -92,7 +92,7 @@ export default function AdminePage() {
 
     useEffect(() => {
         const data = fetchSidebarItemsFromDatabase()
-            .then((data) => {
+            .then((data:any) => {
                 setNewOptions(data); console.log(data);
             })
             .catch((error: any) => { console.log(error) });

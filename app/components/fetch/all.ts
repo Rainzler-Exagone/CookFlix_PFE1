@@ -12,7 +12,7 @@ async function fetchSidebarItemsFromDatabase() {
     //
     var lata = data
 
-var result = lata.reduce( (acc:any, obj) => {
+var result = lata.reduce( (acc:any, obj:any) => {
     acc[obj.another_id] = acc[obj.another_id] || [];
     acc[obj.another_id].push(obj);
     return acc;

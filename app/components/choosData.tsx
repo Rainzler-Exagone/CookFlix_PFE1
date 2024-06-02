@@ -47,7 +47,7 @@ export function CheckboxReactHookFormMultiple() {
     //
     var lata = data;
 
-var result = lata.reduce( (acc:any, obj) => {
+var result = lata.reduce( (acc:any, obj:any) => {
     acc[obj.type] = acc[obj.type] || [];
     acc[obj.type].push(obj);
     return acc;
