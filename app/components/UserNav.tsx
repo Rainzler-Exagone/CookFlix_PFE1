@@ -14,6 +14,10 @@ import { signOut } from "next-auth/react"
 import { Heart, LogOut, Settings, User } from "lucide-react"
 import Link from "next/link"
 import { Avatar } from "@mui/material"
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
+import Profile from "./Profile"
+import DialogProfie from "./AlertDialog"
+import { AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 
 
@@ -22,23 +26,22 @@ export default function UserNav() {
   return (
     <>
       <div>
-      
-        <DropdownMenu>
-          <DropdownMenuTrigger>
+      <Dialog> {/* 🔴 The dialog provider outside of the DropdownMenuContent */}
+      <DropdownMenu>
+       
+        <DropdownMenuTrigger>
             <AvatarIcon />
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <Link href="/profile">
-            <DropdownMenuItem>
-              
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-             
-            </DropdownMenuItem>
-            </Link>
-            <DropdownMenuItem>
+        <DropdownMenuContent>
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <DialogTrigger className="flex">
+            <User className=" mr-2 h-4 w-4" />
+            <span>Profile</span> 
+            </DialogTrigger>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
               <Heart className="mr-2 h-4 w-4" />
               <span>Favorits</span>
             </DropdownMenuItem>
@@ -50,8 +53,15 @@ export default function UserNav() {
               <LogOut className="mr-2 h-4 w-4" />
               <span onClick={()=>signOut()}>Log out</span>
             </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {/* 🔴 DialogContent ouside of DropdownMenuContent */}
+      <DialogContent>
+        <Profile/>
+      </DialogContent>
+    </Dialog>
+          
       </div>
 
 

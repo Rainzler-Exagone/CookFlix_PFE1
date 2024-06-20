@@ -1,2 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 .swiper-button-next { color: black; }
 .swiper-button-prev { color: black; }
+/* .custom-shape-divider-top-1717953287 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1717953287 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 86px;
+}
+
+.custom-shape-divider-top-1717953287 .shape-fill {
+    fill: #FFFFFF;
+} */
+.custom-shape-divider-bottom-1717954083 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1717954083 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 86px;
+}
+
+.custom-shape-divider-bottom-1717954083 .shape-fill {
+    fill: #EDF5F7;
+}
+
+.custom-shape-divider-top-1718395664 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1718395664 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 67px;
+}
+
+.custom-shape-divider-top-1718395664 .shape-fill {
+    fill: #EDF5F7;
+}
+
+section{
+   
+        background-image: url("/public/bg-main.jpg");
+       
+        
+     
+}

@@ -15,28 +15,28 @@ try {
             recipeId: body.recipeId
         }
     })
-        if (!data) {
+    //     if (!data) {
         
-            await prisma.favorit.create({
-            data:{
-                userId: body.userId,
-                recipeId:body.recipeId
-            }
-        })
+    //         await prisma.favorit.create({
+    //         data:{
+    //             userId: body.userId,
+    //             recipeId:body.recipeId
+    //         }
+    //     })
         
-        console.log("created");
-    }
-            else{
+    //     console.log("created");
+    // }
+    //         else{
             
-            await prisma.favorit.delete({
-                where:{
-                id : data?.id
-                }
-            })
+    //         await prisma.favorit.delete({
+    //             where:{
+    //             id : data?.id
+    //             }
+    //         })
         
-            console.log("deleted");
-        }
-    return NextResponse.json({message:"done"})
+    //         console.log("deleted");
+    //     }
+    return NextResponse.json(data)
 } catch (error) {
     return NextResponse.json(error)
 }

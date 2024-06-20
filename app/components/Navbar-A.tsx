@@ -18,9 +18,7 @@ interface linkProps {
 
 const links: linkProps[] = [
     { name: 'Home', href: '/home' },
-    { name: 'Recipes', href: '/home/recipes' },
-    { name: 'Trending', href: '/home/trending' },
-    { name: 'Recently added', href: '/home/recently-added' },
+    { name: 'Recipes', href: '/recipes' }
 ];
 
 export default function Navbar() {
@@ -28,7 +26,7 @@ export default function Navbar() {
     const pathName = usePathname()
     return (
 
-        <div className="w-full mx-auto items-center  py-5 bg-yellow-500 justify-between px-5 sm:px-6 lg:px-8 flex ">
+        <div className="w-full mx-auto items-center  bg-yellow-500  py-5 justify-between px-5 sm:px-6 lg:px-8 flex ">
             <div className="flex items center">
                 <Logo />
 
@@ -52,7 +50,7 @@ export default function Navbar() {
             </div>
             <div className="flex items-center gap-x-8 mt-5 ">
                 <Search className="cursor-pointer" />
-                <Link href="/login"><Button variant={"destructive"}  >Sign In</Button></Link>
+                <Link href="/login"><Button variant={"outline"}  >Sign In</Button></Link>
             </div>
         </div>
 

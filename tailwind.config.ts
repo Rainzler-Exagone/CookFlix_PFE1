@@ -1,4 +1,5 @@
 import { nextui } from "@nextui-org/react"
+import { Montserrat } from "next/font/google";
 import type { Config } from "tailwindcss"
 import { withUt } from "uploadthing/tw";
 
@@ -25,7 +26,8 @@ export default withUt({
       },
       extend: { 
         fontFamily:{
-          Kaushan :[ "Kaushan Script", "cursive"]
+          Kaushan :[ "Kaushan Script", "cursive"],
+          montserrat:['Montserrat','sans-serif']
         },
         colors: {
           border: "hsl(var(--border))",
@@ -61,7 +63,9 @@ export default withUt({
             DEFAULT: "hsl(var(--card))",
             foreground: "hsl(var(--card-foreground))",
           },
-          'abricot' : '#FFF4DF'
+          'abricot' : '#FFF4DF',
+          'saffron' : ' #FF9933',
+          'orange':'#F97316'
         },
         borderRadius: {
           lg: "var(--radius)",

@@ -1,6 +1,6 @@
-#info{
+/* #info{
     background-image: url('https://utfs.io/f/7784da09-e288-416f-a840-b0e318fd6859-m15jgy.jpg');
-}
+} */
 #min #input{
     background-image: url('../../public/bg-main.jpg');
 }
@@ -8,3 +8,8 @@
   background-image: url('../../public/bg-main.jpg');
 }
 
+
+#info{
+  background-image: url('../../public/tg.jpg');
+  
+}

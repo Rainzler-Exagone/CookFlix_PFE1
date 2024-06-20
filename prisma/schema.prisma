@@ -1,215 +1,215 @@
-generator client {
-  provider = "prisma-client-js"
-}
+  generator client {
+    provider = "prisma-client-js"
+  }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+  datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+  }
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String?
+    access_token      String?
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String?
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
-}
+    @@unique([provider, providerAccountId])
+  }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
+  model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?   @unique
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  created_at    DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at    DateTime  @updatedAt
-  password      String?
-  favorit       Favorit[]
-  accounts      Account[]
-  profile       Profile?
-  Rating        Rating[]
-  sessions      Session[]
-}
+  model User {
+    id            String    @id @default(cuid())
+    name          String?   @unique
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    created_at    DateTime  @default(now()) @db.Timestamptz(6)
+    updated_at    DateTime  @updatedAt
+    password      String?
+    favorit       Favorit[]
+    accounts      Account[]
+    profile       Profile?
+    Rating        Rating[]
+    sessions      Session[]
+  }
 
-model Profile {
-  id     String  @id @default(cuid())
-  userId String? @unique
-  user   User?   @relation(fields: [userId], references: [id])
-}
+  model Profile {
+    id     String  @id @default(cuid())
+    userId String? @unique
+    user   User?   @relation(fields: [userId], references: [id])
+  }
 
-model Favorit {
-  id String @id @default(uuid())
+  model Favorit {
+    id String @id @default(uuid())
 
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
+    User   User?   @relation(fields: [userId], references: [id])
+    userId String?
 
-  Recipe   Recipe? @relation(fields: [recipeId], references: [id])
-  recipeId String?
+    Recipe   Recipe? @relation(fields: [recipeId], references: [id])
+    recipeId String?
 
-  @@unique([userId,recipeId])
-}
+    @@unique([userId,recipeId])
+  }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+  model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
 
-  @@unique([identifier, token])
-}
+    @@unique([identifier, token])
+  }
 
-model Ingredients {
-  id           String          @id @default(uuid())
-  name         String?         @unique
-  type         ingredienttype?
-  imagesrc     String?
-  Compositions Composition[]
-  Meal         Meal[]          @relation("IngredientsToMeal")
-}
+  model Ingredients {
+    id           String          @id @default(uuid())
+    name         String?         @unique
+    type         ingredienttype?
+    imagesrc     String?
+    Compositions Composition[]
+    Meal         Meal[]          @relation("IngredientsToMeal")
+  }
 
-model Meal {
-  id                String           @id @default(uuid())
-  name              String?          @db.VarChar
-  image             String?          @db.VarChar
-  saisone           saisone[]
-  difficulty        difficulty?
-  nutrition_factsId String?          @unique
-  nutrition_facts   Nutrition_facts? @relation(fields: [nutrition_factsId], references: [id])
-  recipe            Recipe?
-  Ingredients       Ingredients[]    @relation("IngredientsToMeal")
-  category      category?
-}
+  model Meal {
+    id                String           @id @default(uuid())
+    name              String?          @db.VarChar @unique
+    image             String?          @db.VarChar
+    saisone           saisone[]
+    difficulty        difficulty?
+    nutrition_factsId String?          @unique
+    nutrition_facts   Nutrition_facts? @relation(fields: [nutrition_factsId], references: [id])
+    recipe            Recipe?
+    Ingredients       Ingredients[]    @relation("IngredientsToMeal")
+    category      category?
+  }
 
-model Nutrition_facts {
-  id          String @id @default(uuid())
-  calorie     Float
-  protein     Float
-  fibre       Float
-  carbs       Float
-  Sugars      Float
-  sodium      Float
-  iron        Float
-  Fat         Float
-  cholesterol Float
-  meal        Meal?
-}
+  model Nutrition_facts {
+    id          String @id @default(uuid())
+    calorie     Float
+    protein     Float
+    fibre       Float
+    carbs       Float
+    Sugars      Float
+    sodium      Float
+    iron        Float
+    Fat         Float
+    cholesterol Float
+    meal        Meal?
+  }
 
-model Rating {
-  id       String @unique @default(uuid())
-  stars    Int?
-  recipeId String
-  userId   String
-  Recipe   Recipe @relation(fields: [recipeId], references: [id])
-  User     User   @relation(fields: [userId], references: [id])
+  model Rating {
+    id       String @unique @default(uuid())
+    stars    Int?
+    recipeId String
+    userId   String
+    Recipe   Recipe @relation(fields: [recipeId], references: [id])
+    User     User   @relation(fields: [userId], references: [id])
 
-  @@unique([userId, recipeId])
-}
+    @@unique([userId, recipeId])
+  }
 
-model Recipe {
-  id            String        @id @default(uuid())
-  category      category
-  image         String?
-  Description   String
-  Difficulty    difficulty
-  Events        occasions
-  mealId        String        @unique
-  Preparation_t Float
-  Rest_t        Float
-  Cooking_t     Float
-  videoEmbedId  String?
-  favorit       Favorit[]
-  composition   Composition[]
-  instruction   Instruction[]
-  Rating        Rating[]
-  Meal          Meal          @relation(fields: [mealId], references: [id])
-}
+  model Recipe {
+    id            String        @id @default(uuid())
+    category      category
+    image         String?
+    Description   String
+    Difficulty    difficulty
+    Events        occasions
+    mealId        String        @unique
+    Preparation_t Float
+    Rest_t        Float
+    Cooking_t     Float
+    videoEmbedId  String?
+    favorit       Favorit[]
+    composition   Composition[]
+    instruction   Instruction[]
+    Rating        Rating[]
+    Meal          Meal          @relation(fields: [mealId], references: [id])
+  }
 
-model Composition {
-  id              String      @id @default(uuid())
-  ingredientsName String
-  quantity        Float
-  unit            String?
-  recipeId        String?
-  Ingredients     Ingredients @relation(fields: [ingredientsName], references: [name])
-  Recipe          Recipe?     @relation(fields: [recipeId], references: [id])
-}
+  model Composition {
+    id              String      @id @default(uuid())
+    ingredientsName String
+    quantity        Float
+    unit            String?
+    recipeId        String?
+    Ingredients     Ingredients @relation(fields: [ingredientsName], references: [name])
+    Recipe          Recipe?     @relation(fields: [recipeId], references: [id])
+  }
 
-model Instruction {
-  id          String  @id @default(uuid())
-  StepNo      Int
-  description String
-  recipeId    String?
-  Recipe      Recipe? @relation(fields: [recipeId], references: [id])
-}
+  model Instruction {
+    id          String  @id @default(uuid())
+    StepNo      Int
+    description String
+    recipeId    String?
+    Recipe      Recipe? @relation(fields: [recipeId], references: [id])
+  }
 
-enum difficulty {
-  hard
-  medium
-  easy
-}
+  enum difficulty {
+    hard
+    medium
+    easy
+  }
 
-enum ingredienttype {
-  Pantry_Essentials                    @map("Pantry Essentials")
-  Vegetables___Greens                  @map("Vegetables & Greens")
-  Mushrooms
-  Fruits
-  Berries
-  Nuts___Seeds                         @map("Nuts & Seeds")
-  Cheeses
-  Dairy___Eggs                         @map("Dairy & Eggs")
-  Meats
-  Poultry
-  Fish___Seefood                       @map("Fish & Seefood")
-  Sauces
-  Herbs___Spices                       @map("Herbs & Spices")
-  Baking
-  Pre_Made_Doughs___Wrappers           @map("Pre_Made Doughs & Wrappers")
-  Pastries
-  Bread___Salty_Snacks                 @map("Bread & Salty Snacks")
-  Oils___Fats                          @map("Oils & Fats")
-  Dressings___Vinegars                 @map("Dressings & Vinegars")
-  Sugar___Sweetener                    @map("Sugar & Sweetener")
-  Seasonings___Spice_BlendsCanned_Food @map("Seasonings & Spice BlendsCanned Food")
-  Desserts___Sweet_Snacks              @map("Desserts & Sweet Snacks")
-  Beverages
-}
+  enum ingredienttype {
+    Pantry_Essentials                    @map("Pantry Essentials")
+    Vegetables___Greens                  @map("Vegetables & Greens")
+    Mushrooms
+    Fruits
+    Berries
+    Nuts___Seeds                         @map("Nuts & Seeds")
+    Cheeses
+    Dairy___Eggs                         @map("Dairy & Eggs")
+    Meats
+    Poultry
+    Fish___Seefood                       @map("Fish & Seefood")
+    Sauces
+    Herbs___Spices                       @map("Herbs & Spices")
+    Baking
+    Pre_Made_Doughs___Wrappers           @map("Pre_Made Doughs & Wrappers")
+    Pastries
+    Bread___Salty_Snacks                 @map("Bread & Salty Snacks")
+    Oils___Fats                          @map("Oils & Fats")
+    Dressings___Vinegars                 @map("Dressings & Vinegars")
+    Sugar___Sweetener                    @map("Sugar & Sweetener")
+    Seasonings___Spice_BlendsCanned_Food @map("Seasonings & Spice BlendsCanned Food")
+    Desserts___Sweet_Snacks              @map("Desserts & Sweet Snacks")
+    Beverages
+  }
 
-enum saisone {
-  winter
-  summer
-  Autumn
-  spring
-}
+  enum saisone {
+    winter
+    summer
+    Autumn
+    spring
+  }
 
-enum category {
-  Entrance
-  Main_dish
-  Dessert
-  Juice
-}
+  enum category {
+    Entrance
+    Main_dish
+    Dessert
+    Juice
+  }
 
-enum occasions {
-  Marriage
-  Mouloud
-  Circumcision
-  Eid
-  Achoura
-  Ramadhan
-}
+  enum occasions {
+    Marriage
+    Mouloud
+    Circumcision
+    Eid
+    Achoura
+    Ramadhan
+  }

@@ -1,4 +1,4 @@
-export async function handlefavorit (userID:string,recipeID:string) {
+export async function handlefavorit(userID:string,recipeID:string) {
    
     const response = await fetch('/api/favoritt', {
       method: "POST",

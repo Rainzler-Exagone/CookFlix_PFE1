@@ -1,11 +1,17 @@
 import prisma from "@/app/utils/db";
 
-export async function GET(req: any, { params }: { params: { name: string } }){
+
+interface RequestBody{
+  mealId:string
+}
+
+
+export async function POST(request:Request){
     try {
-      const name = params.name
-      const res = await prisma.recipe.findMany({
+      const body:RequestBody =  await request.json()
+        const res = await prisma.recipe.findFirst({
         where:{
-          id:name
+          mealId:body.mealId
         },
         include:{
          Meal:true,
@@ -21,3 +27,4 @@ export async function GET(req: any, { params }: { params: { name: string } }){
     }
        
 }
+

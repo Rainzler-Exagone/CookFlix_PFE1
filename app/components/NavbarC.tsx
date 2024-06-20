@@ -17,9 +17,7 @@ interface linkProps {
 
 const links: linkProps[] = [
     { name: 'Home', href: '/home' },
-    { name: 'Recipes', href: '/home/recipes' },
-    { name: 'Trending', href: '/home/trending' },
-    { name: 'Recently added', href: '/home/recently-added' },
+    { name: 'Recipes', href: '/recipes' }
 ];
 
 export default function Navbar() {

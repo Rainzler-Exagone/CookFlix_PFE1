@@ -8,6 +8,7 @@ import { authOptions } from "@/app/utils/auth";
 import { redirect } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Form from "@/app/components/SignInForm"
+import { toast } from "react-toastify";
 
 export default async function Login() {
 
@@ -15,6 +16,7 @@ export default async function Login() {
     if (session) {
         return redirect('/home')
     }
+    
     return (
         <div className="mt-20 rounded-xl bg-black/45 py-10 px-6 md:max-w-sm  md:px-14">
            
@@ -28,6 +30,7 @@ export default async function Login() {
                 <GoogleButton />
 
             </div>
+           
         </div>
     )
 }

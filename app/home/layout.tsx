@@ -5,11 +5,15 @@ import { redirect } from "next/navigation";
 import Navbar from "../components/Navbar";
 import {IngredientLists} from "../components/Input"
 import Poster from "../components/CookPoster";
+import Footer from "../components/Footer";
 
 export default async function HomeLayout({children}:{children : ReactNode}){
     const session = await getServerSession(authOptions)
     
-
+    console.log('this is session :' + session);
+    
+    
+   
     if(!session){
        return redirect("/guest")
     }else{
@@ -27,6 +31,7 @@ export default async function HomeLayout({children}:{children : ReactNode}){
                   <main >
                      {children}
                   </main>
+                  
          
          </>
              

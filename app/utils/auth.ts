@@ -7,6 +7,8 @@ import EmailProvider from "next-auth/providers/email";
 import CredentialsProvider from "next-auth/providers/credentials";
 import Email from "next-auth/providers/email";
 import { compare } from "bcrypt";
+import { redirect } from "next/navigation";
+import { getUserCredentials } from "../actions/meal";
 
 
 
@@ -42,6 +44,8 @@ export const authOptions = {
         },
         async authorize(credentials, req) {
           // Add logic here to look up the user from the credentials supplied
+
+          // const res = await getUserCredentials(credentials?.email as string,  credentials?.password as string)
           const res = await fetch("http://localhost:3000/api/login",{
             method:"POST",
             headers:{
@@ -52,27 +56,63 @@ export const authOptions = {
               password: credentials?.password
             })
           })
-    
-        const user = await res.json()
+               
 
-          if (user) {
-            return user
-          } else {
-            return null
-            }
-        }
-      })
-    ],
-    callbacks:{
-      async  jwt({token,user}) {
-        return {...token,...user}
-      },
-      // async session({session,token}){
-      //   session.user = token as any
+
+    
+ 
+          
+    
+        // const user = await resa.json()
         
-      //   return session
-      // }
+        
+        
+
+    
+        const isEmpty = (obj:any) => {
+          return Object.keys(obj).length === 0;
+        };
+
+
+        const user = await res.json();
+
+        if (user) {
+          // Any object returned will be saved in `user` property of the JWT
+          return user;
+        } else {
+          // If you return null then an error will be displayed advising the user to check their details.
+          return null;
+
+          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        }
+       
+       
+        
+
+    
+        
+   
+
+       
+
+
+      
+  
+        }
+      }),
+    ],
+    callbacks: {
+      async jwt({ token, user }) {
+    
+        return { ...token, ...user };
+        
+      },
+      async session({ session, token, user }) {
+        session.user = token as any;
+        return session;
+      },
     },
+    
     session: {
         strategy: 'jwt'
       },

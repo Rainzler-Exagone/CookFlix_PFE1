@@ -28,9 +28,7 @@ import Image from 'next/image';
 
 export default function MediaCard() {
     const {data: session} = useSession()
-    const avatar = session?.user?.image! 
-    const username = session?.user?.name 
-    const userId:any = session?.user?.id
+   const username = session?.user?.name 
     const email = session?.user?.email 
   
 

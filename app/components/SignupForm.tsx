@@ -8,6 +8,7 @@ import { redirect } from "next/navigation"
 import { FormEvent, useState } from "react"
 import { useRouter } from "next/navigation"
 import Spinner from "./Spinner"
+import {toast} from 'sonner'
 
 export default function Form() {
 
@@ -16,6 +17,8 @@ export default function Form() {
     const [email,setEamil] = useState<null | string>(null)
     const [loading, setLoading] = useState(false);
     const router  = useRouter()
+
+
 
 
    
@@ -32,6 +35,7 @@ export default function Form() {
             })
         });
        if (response.ok) {
+        toast.success('account created successfully')
          router.push('/login')
        }
        console.log(response);

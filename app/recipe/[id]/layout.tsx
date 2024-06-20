@@ -11,6 +11,7 @@ import {
  } from "@/components/ui/card"
 
  import { redirect } from "next/navigation";
+import Footer from "@/app/components/Footer";
 
 
 export default async function HomeLayout({children}:{children : ReactNode}){
@@ -25,6 +26,7 @@ export default async function HomeLayout({children}:{children : ReactNode}){
          <Navbar/>
             
             {children}
+            <Footer/>
          </body>
 
 </>

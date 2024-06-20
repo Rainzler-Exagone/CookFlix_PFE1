@@ -15,7 +15,7 @@ export default async function Navbar() {
 
     return (
 
-        <div className="w-full mx-auto items-center  py-5 bg-yellow-500 justify-between px-5 sm:px-6 lg:px-8 flex ">
+        <div className="w-full mx-auto items-center py-5 bg-opacity-70  bg-yellow-500  justify-between px-5 sm:px-6 lg:px-8 flex ">
             <div className="flex items center">
                 <Logo />
             </div>
@@ -23,7 +23,7 @@ export default async function Navbar() {
             <div className="flex items-center gap-x-8 pr-10 mt-5 ">
                 <Search  className="cursor-pointer"/>
                 {/* <UserNav/> */}
-                {session ? <UserNav/> : <Link href="/login"><Button variant={"destructive"}  >Sign In</Button></Link>}
+                {session ? <UserNav/> : <Link href="/login"><Button variant={"outline"}  >Sign In</Button></Link>}
             </div>
          </div>
 

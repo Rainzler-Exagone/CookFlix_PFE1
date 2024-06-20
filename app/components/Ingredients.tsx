@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { z } from "zod";
 import {Beef, ChevronDown, Drumstick, FishSymbol, LeafyGreen, Milk, Nut } from "lucide-react"
 import { LiaCheeseSolid } from "react-icons/lia";
+import { GiHerbsBundle } from "react-icons/gi";
 
 import { redirect } from "next/navigation";
 import Accordion from '@mui/material/Accordion';
@@ -24,7 +25,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Navigation } from 'swiper/modules';
-import { getRecipeByMealId } from "./functions/getMeal";
+import  getRecipeByMealId  from "./functions/getMeal";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/components/ui/use-toast";
@@ -40,14 +41,16 @@ import 'swiper/css/navigation';
 import './z.all.css'
 import Image from "next/image";
 import Link from "next/link";
-// import {
-//   Collapsible,
-//   CollapsibleContent,
-//   CollapsibleTrigger,
-// } from "@/components/ui/collapsible"
+import { PiJar } from "react-icons/pi";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 import {CaretSortIcon} from "@radix-ui/react-icons"
 
 import Collapsible from 'react-collapsible'
+import { Badge } from "@/components/ui/badge";
 
 
 
@@ -67,13 +70,14 @@ const FormSchema = z.object({
 export default function Ingredients() {
 
   const [items, setItems] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [meal, setMeal] = useState([])
   const [link, setLink] = useState();
   const [id, setId] = useState();
   const [selectedItems, setSelectedItems] = useState<any>([]);
-  const typesArr = ["Pantry Essentiels","Vegetables & Greens","Cheeses","Dairy","Meats","Fishes & Seafood","Nuts & Seeds"]
-  const iconsArr = [<LeafyGreen key='0' />,<LiaCheeseSolid key="1" />, <Beef key='2' />,<Milk key='3' />, <Drumstick key='4' />,  <FishSymbol key='5' /> , <Nut key='6' /> , <CiBowlNoodles key='7' />]
+  const typesArr = ["Pantry Essentiels","Vegetables & Greens","Cheeses","Dairy","Meats","Fishes & Seafood","Nuts & Seeds","Poultry","Noodles","Herbs & Spices"]
+  const iconsArr = [<PiJar className="text-2xl" key='8'/>,<LeafyGreen key='0' />, <LiaCheeseSolid className="text-2xl" key="1" />,<Milk key='3' />, <Beef key='2' />,  <FishSymbol key='5' /> , <Nut key='6' /> , <Drumstick key='4' />,<CiBowlNoodles className="text-2xl" key='7' />,<GiHerbsBundle className="text-2xl" key='10' />
+  ]
 
 
 
@@ -114,7 +118,8 @@ export default function Ingredients() {
         setLoading(false)
       })
 
-      .catch((error: any) => { console.log(error) });
+      .catch((error: any) => { console.log(error)
+       });
   }, []);
 
 
@@ -134,9 +139,8 @@ export default function Ingredients() {
   const handleSearch = async () => {
 
     if (selectedItems != "") {
-      setLoading(true)
+      
       const search = await getByIngredients(selectedItems);
-      setLoading(false)
       
       setMeal(search);
       setId(search.id)
@@ -160,13 +164,77 @@ export default function Ingredients() {
 
 
   return (
-    <section className="flex-col justify-center scrollbar-hide">
+    <section className="flex-col justify-center bg-transparent">
+        <div className="flex w-full mb-20 justify-center"> <p className='mt-6 text-4xl font-montserrat  text-white-400 '>
+ Select your ingredients to view the meals
+          </p>
+</div>
+       {loading ? (<div className=' h-screen flex justify-center items-center'><Spinner/></div>):(<>
        
+        {
+        items.map((item: any, index: any) => (
+         
+          <div className="flex justify-center mt-5 w-full" key={index}>
+              <Accordion className="rounded-lg w-3/4 py-3  bg-white/30 backdrop-blur-md">
+            <AccordionSummary
+             expandIcon={<ExpandMoreIcon />}
+             aria-controls="panel1-content"
+             id="panel1-header"
+            
+             
+            ><div className=" mx-8">{typesArr[index]} </div><div >{iconsArr[index]}</div></AccordionSummary>
+            <AccordionDetails>
+          <div key={index} className="h-6/5 w-6/4  items-center bg-white/30 backdrop-blur-md  rounded-2xl">
+            <div className="">
+              <Swiper key={index} navigation={true}
+                modules={[Navigation]}
+                >
+                {item.map((ingredient: any, index: any) => (
+                  <SwiperSlide key={ingredient.id} >
+                    <div id="container" className="grid min-w-[100%] min-h-full object-cover grid-cols-2 p-5 sm:grid-cols-4   md:grid-cols-5 " >
+                      {ingredient.map((el: any) => (
+                        <div key={el.id} className="flex-col">
+                          <div className=" flex justify-center p-5 ">
+                            <HoverCard>
+                              <HoverCardTrigger asChild>
+                                
+                            <Avatar className="  cursor-pointer">
+                              <AvatarImage src={el.imagesrc}  />
+                              <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                              </HoverCardTrigger>
+                              <HoverCardContent className="w-40">
+        <div className="flex justify-center ">
+         <Image src={el.imagesrc} height={'90'} width={'90'} alt="ingredient-image" />
+        </div>
+      </HoverCardContent>
+                            </HoverCard>
+                          </div>
+                          <div className="flex justify-center text-sm text-center">
+                            <input type="checkbox" id={el.name} value={el.name} onChange={checkboxhandler} className="mx-2 cursor-pointer" />
+                            <label htmlFor={el.name} className="self-center text-center cursor-pointer ">{el.name}</label>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
 
-<div className="w-screen flex justify-center">
+            </div>
+
+          </div>
+          </AccordionDetails>
+          </Accordion>
+          </div>
+            
+        ))
+      }
+
+<div  className="w-auto flex justify-center">
         <Drawer>
           <DrawerTrigger asChild>
-            <Button onClick={handleSearch} className="w-32">Search</Button>
+            <Button onClick={handleSearch} className="w-32 m-10">Search</Button>
           </DrawerTrigger>
           <DrawerContent>
 
@@ -188,10 +256,9 @@ export default function Ingredients() {
                         {meal.map((item: any) => (
                          <SwiperSlide key={item.id}>
                            <div className="flex-1 text-center">
-                             <div className="text-7xl font-bold tracking-tighter">
+                             <div className="text-7xl flex font-bold tracking-tighter">
                                <div className="mt-3  h-[120px]">
-                                 <Image alt="image" src={item.image} height="340" width="340"  className="mb-5"/>
- 
+                                 <Image  alt="image" src={item.image} height="340" width="340"  className="mb-5"/>
                                </div>
                              </div>
                            </div>
@@ -249,59 +316,10 @@ export default function Ingredients() {
       </div>
       
        
-      {
-        items.map((item: any, index: any) => (
-         
-          <div className="flex justify-center mt-5 w-full" key={index}>
-              <Accordion className="rounded-lg w-2/3 py-3  bg-white/30 backdrop-blur-md">
-            <AccordionSummary
-             expandIcon={<ExpandMoreIcon />}
-             aria-controls="panel1-content"
-             id="panel1-header"
-             
-            ><div className=" mx-8">{typesArr[index]} </div><div >{iconsArr[index]}</div></AccordionSummary>
-            <AccordionDetails>
-          <div key={index} className="h-6/5 w-6/4  items-center bg-white/30 backdrop-blur-md overflow-hidden rounded-2xl">
-            {/* <h1 className="text-3xl pt-2 text-center">{typesArr[index]}</h1> */}
-            <div className="">
-              <Swiper key={index} navigation={true}
-                modules={[Navigation]}
-                >
-                {/* <div className="p-5 flex self-end overflow-x-scroll scrollbar-hide min-h-[100%] md:grid-cols-3"> */}
-                {item.map((ingredient: any, index: any) => (
-                  <SwiperSlide key={ingredient.id}>
-                    <div id="container" className="grid min-w-[100%] min-h-full object-cover grid-cols-2 p-5 sm:grid-cols-4   md:grid-cols-5 " >
-                      {ingredient.map((el: any) => (
-                        <div key={el.id} className="flex-col">
-                          <div className=" flex justify-center p-5 ">
-                            <Avatar className="  cursor-pointer">
-                              <AvatarImage src={el.imagesrc} />
-                              <AvatarFallback>CN</AvatarFallback>
-                            </Avatar>
-                          </div>
-                          <div className="flex justify-center text-sm text-center">
-                            <input type="checkbox" id={el.name} value={el.name} onChange={checkboxhandler} className="mx-2 cursor-pointer" />
-                            <label htmlFor={el.name} className="self-center text-center cursor-pointer ">{el.name}</label>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </SwiperSlide>
-                ))}
-                {/* </div> */}
-              </Swiper>
-
-            </div>
-
-          </div>
-          </AccordionDetails>
-          </Accordion>
-          </div>
-            
-        ))
-      }
-
-
+       </>)}
+    
+       
+    
 
     </section>
 

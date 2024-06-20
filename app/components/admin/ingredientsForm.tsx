@@ -3,7 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -19,31 +24,31 @@ import { toast} from "@/components/ui/use-toast"
 
 
 const FormSchema = z.object({
-  type: z.enum(["all", "mentions", "none"], {
-    required_error: "You need to select a notification type.",
+  name: z.string().min(1, "name is required."),
+  image : z.string().url(),
+  type: z.enum(["Baking","Berries","Beverages","Bread___Salty_Snacks","Cheeses","Dairy___Eggs","Desserts___Sweet_Snacks","Dressings___Vinegars","Fish___Seefood","Fruits","Herbs___Spices","Meats","Mushrooms","Nuts___Seeds","Oils___Fats","Pastries","Poultry","Pre_Made_Doughs___Wrappers","Sauces","Seasonings___Spice_BlendsCanned_Food","Sugar___Sweetener","Vegetables___Greens"], {
+    required_error: "You need to select the ingredient type.",
   }),
-  notification: z.enum(["email", "sms", "push"], {
-    required_error: "You need to select a notification method.",
-  }),
-  
-  username: z.string().min(1, "Username is required."),
-  email: z.string().email("Invalid email address."),
+ 
 })
 
-export function RadioGroupForm() {
+export function IngredientsForm() {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
 
+
+ const typeArr = ["Baking","Berries","Beverages","Bread___Salty_Snacks","Cheeses","Dairy___Eggs","Desserts___Sweet_Snacks","Dressings___Vinegars","Fish___Seefood","Fruits","Herbs___Spices","Meats","Mushrooms","Nuts___Seeds","Oils___Fats","Pastries","Poultry","Pre_Made_Doughs___Wrappers","Sauces","Seasonings___Spice_BlendsCanned_Food","Sugar___Sweetener","Vegetables___Greens"]
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+      title: "Ingredient created successfuly !",
+      // description: (
+      //   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+      //     <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+      //   </pre>
+      // ),
     })
     console.log(data);
     
@@ -52,111 +57,59 @@ export function RadioGroupForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      
+      <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel className="font-semibold">Name</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter your name" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel className="font-semibold">image</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Enter your image link" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+          
+          <FormField
           control={form.control}
           name="type"
           render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>Notify me about...</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="all" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      All new messages
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="mentions" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      Direct messages and mentions
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="none" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Nothing</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
+            <FormItem>
+              <FormLabel className="font-semibold">Type </FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a meal to link the recipe with" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                {typeArr.map((typeArr:any,index:any)=>(
+                  <SelectItem key={index} value={typeArr}>{typeArr}</SelectItem>
+                ))}
+                </SelectContent>
+              </Select>
+              
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="notification"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>Notification method</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="email" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Email</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="sms" />
-                    </FormControl>
-                    <FormLabel className="font-normal">SMS</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="push" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Push Notification</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter your username" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter your email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <Button type="submit">Submit</Button>
       </form>

@@ -37,6 +37,7 @@ export async function GET(req: any, { params }: { params: { name: string } }) {
         id: true,
         image: true,
         difficulty:true,
+        category:true
       }
 
     })

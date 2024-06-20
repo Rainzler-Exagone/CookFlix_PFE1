@@ -3,6 +3,8 @@ import { createMeal } from "../functions/CreateMeal"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Separator } from "@/components/ui/separator"
 import {
   Popover,
   PopoverContent,
@@ -26,9 +28,9 @@ import { Autocomplete, TextField } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { fetchSidebarItemsFromDatabase } from "../Input"
 import { Label } from "@/components/ui/label"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { image } from "@nextui-org/react"
 import { category } from "@prisma/client"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
 
 
@@ -178,13 +180,10 @@ export function MealForm() {
   }, []);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-      //   const selected = {
-      //     ingredients: {selectedIngredients}
-      // } 
-      // console.log(selected);
-
-
-
+    toast({
+      title: "Meal created successfuly !",
+      
+    })
       console.log(data);
 
       console.log(selectedIngredients);
@@ -217,7 +216,7 @@ export function MealForm() {
           name="name"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>name</FormLabel>
+              <FormLabel className="font-semibold">name</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="meal's name" />
               </FormControl>
@@ -231,7 +230,7 @@ export function MealForm() {
           name="image"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Image</FormLabel>
+              <FormLabel className="font-semibold">Image</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="image-url" />
               </FormControl>
@@ -248,9 +247,9 @@ export function MealForm() {
 
             <FormItem>
               <div className="mb-4">
-                <FormLabel className="text-base">Sidebar</FormLabel>
+                <FormLabel className="text-base font-semibold">Saisone</FormLabel>
                 <FormDescription>
-                  Select the items you want to display in the sidebar.
+                 
                 </FormDescription>
               </div>
               {items.map((item: any) => (
@@ -296,7 +295,7 @@ export function MealForm() {
           name="difficulty"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Difficulty</FormLabel>
+              <FormLabel className="font-semibold">Difficulty</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -332,7 +331,7 @@ export function MealForm() {
           name="category"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Category</FormLabel>
+              <FormLabel className="font-semibold">Category</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -396,9 +395,10 @@ export function MealForm() {
         ></Autocomplete>
 
 
-        <Popover >
+         
+        <Popover  >
 
-          <PopoverTrigger asChild>
+          <PopoverTrigger asChild >
             <Button variant="outline">Add Nutritional facts</Button>
           </PopoverTrigger>
           <PopoverContent className="w-80 h-1/2">
@@ -602,7 +602,8 @@ export function MealForm() {
 
           </PopoverContent>
         </Popover>
-
+      
+     
         <Button type="submit">Submit</Button>
       </form>
     </Form>
