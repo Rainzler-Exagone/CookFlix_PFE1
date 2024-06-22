@@ -34,12 +34,24 @@ export default function Form() {
                 password: formData.get('password')
             })
         });
-       if (response.ok) {
-        toast.success('account created successfully')
-         router.push('/login')
-       }
+        const data =await response.json()
+       
+        
+       if (data.name == 'PrismaClientKnownRequestError') {
+        console.log(data);
+        
+        toast.error('email is already used')
        console.log(response);
        setLoading(false)
+       
+       }
+       else{
+
+           console.log(response);
+            
+           router.push('/login')
+       }
+       
        
         
     }

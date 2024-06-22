@@ -49,7 +49,7 @@ export default function Product({ params }: any) {
 
   
 
-
+//getting recipe by Id 
   useEffect(() => {
     setLoading(true)
     getRecipeById(params.id)
@@ -75,7 +75,7 @@ export default function Product({ params }: any) {
       });
   }, [recipeID,params.id]);
 
-
+//get Nutritiional facts
   useEffect(() => {
     getNutritionalFacts(params.id)
       .then((data) => {
@@ -86,7 +86,7 @@ export default function Product({ params }: any) {
       .catch((error: any) => { console.log(error) });
   }, [params.id]);
 
-  
+  //retreive userId
   useEffect(() => {
     getUserId(userName as string)
       .then((data) => {
@@ -99,6 +99,12 @@ export default function Product({ params }: any) {
       .catch((error: any) => { console.log(error) });
   }, [userName]);
 
+  // useEffect(() => {
+  //   checkFavorit(recipeID,userId)
+  //   .then((data)=>(console.log(data);
+  //   ))
+    
+  // }, []);
  
 
 
@@ -106,41 +112,18 @@ export default function Product({ params }: any) {
 
 
 
-  // const handlefavorit = async () => {
-
-  //   const response = await fetch('/api/favoritt', {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       userId: userID,
-  //       recipeId: recipeID
-  //     })
-
-  //   })
-  //   console.log(response);
-
-  //   if (!response.ok) {
-  //     throw new Error('Failed ');
-  //   }
-  //   const data = await response.json();
-  //   console.log(data);
-
-  //   return data;
-
-
-
-
-  // }
-
   //server Action 
   async function fetchData(recipeID:any,userId:any) {
     const data = await getfavorit(recipeID,userId as string) 
     console.log(data);
 
-    if (data) {
-      setisFavorit(true)
+    if (data && data.data?.id) {
+      await deletefavorit(recipeID,userId)
+     setisFavorit(false)
     }
     else{
-      setisFavorit(false)
+      await setfavorit(recipeID,userId)
+      setisFavorit(true)
       }
     console.log(isFavorit);
     
@@ -148,12 +131,6 @@ export default function Product({ params }: any) {
     
   }
 
-  // useEffect(() => {
-  //   handlefavorit(userID,recipeID)
-
-  // }, []);
-
-  // useEffect( () => {
 
 
 
@@ -203,7 +180,6 @@ export default function Product({ params }: any) {
                     >
 
                       <Paper elevation={3} >
-                        {/* {recipe.map((el: any, index: any) => ( */}
                         <Image
 
                           alt="recipe-image"
@@ -213,10 +189,9 @@ export default function Product({ params }: any) {
 
                           priority
                         />
-                        {/* ))} */}
                       </Paper>
                     </Box>
-                    {/* {recipe.map((el: any, index: any) => ( */}
+            
 
 
                     <div className="md:flex mt-10  mb-8 justify-center items-center   overflow-hidden rounded-md hidden " >
@@ -240,19 +215,17 @@ export default function Product({ params }: any) {
                       ></iframe>
 
                     </div>
-                    {/* ))} */}
+                   
 
                   </div>
-                  {/* {
-                  recipe.map((el: any, index: any) => ( */}
+                 
                   <div className="w-1/2 my-3 h-full ml-10">
                     <div className="flex justify-between items-center">
-                      {/* {setse(el.Meal.)} */}
                       <Typography gutterBottom variant="h5" component="div" className="font-bold">
                         {recipe.Meal.name}
                       </Typography>
-                        <Button  variant={'outline'} onClick={() => (startTransition(() => {isFavorit ? setfavorit(recipeID, userId as string ) : deletefavorit(recipeID, userId as string )}))}><Heart className={favorit ? "text-red-500" : "text-gray-500"} /></Button>
-
+                      {session ? ( <Button   variant={'outline'} onClick={() => (startTransition(() =>fetchData(recipeID, userId as string)))}>
+                        <Heart className={isFavorit ? "text-red-500" : "text-gray-500"} /></Button>) :('')}
                       {/* <form onSubmit={handlefavorit}>
                         <Button type="submit" variant="outline" size="icon">
                           

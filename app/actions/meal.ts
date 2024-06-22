@@ -143,10 +143,13 @@ export async function getfavorit(recipeid:string,userid:string) {
         where:{
             userId:userid,
             recipeId:recipeid
+        },
+        select:{
+            id:true
         }
     })
    revalidatePath(`/recipe/${recipeid}`)
-    return data
+    return {data}
    } catch (error) {
     return{error}
    }
@@ -228,5 +231,18 @@ export async function getUserCredentials(email:string,password:any){
     else return new Response(JSON.stringify(null))
     } catch (error) {
         return new Response(JSON.stringify(error))
+    }
+}
+export async function getAllFavorits(userId:string) {
+    try {
+        const data = await prisma.favorit.findMany({
+            where:{
+                userId:userId
+            }
+        })
+        return new Response(JSON.stringify(data))
+    } catch (error) {
+        return new Response(JSON.stringify(error))
+        
     }
 }

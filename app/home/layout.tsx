@@ -3,9 +3,7 @@ import { Children, ReactNode } from "react";
 import { authOptions } from "../utils/auth";
 import { redirect } from "next/navigation";
 import Navbar from "../components/Navbar";
-import {IngredientLists} from "../components/Input"
-import Poster from "../components/CookPoster";
-import Footer from "../components/Footer";
+import { Toaster } from "sonner";
 
 export default async function HomeLayout({children}:{children : ReactNode}){
     const session = await getServerSession(authOptions)
@@ -29,6 +27,7 @@ export default async function HomeLayout({children}:{children : ReactNode}){
          
                   <Navbar />
                   <main >
+                     <Toaster/>
                      {children}
                   </main>
                   

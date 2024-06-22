@@ -1,10 +1,7 @@
 "use client"
-import { Autocomplete, createTheme, TextField, ThemeProvider } from "@mui/material";
-import { orange, red } from "@mui/material/colors";
+import { Autocomplete, TextField  } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import prisma from "../utils/db";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import Spinner from "./Spinner";
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -14,7 +11,7 @@ import"./z.all.css"
 import { Navigation } from "swiper/modules";
 import Image from "next/image";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 
 
 
@@ -89,7 +86,7 @@ export const IngredientLists = () => {
   
   const handleSearch = async () => {
 
-    if (selectedIngredients != "") {
+    if (selectedIngredients.length !== 0 ) {
       const search = await getByIngredients(selectedIngredients);
       setMeal(search);
       setId(search.id)
@@ -99,8 +96,9 @@ export const IngredientLists = () => {
 
     }
     else {
-      console.log("empty")
-
+      toast.error('Enter at least on ingredient')
+       console.log('empty array');
+       
     }
 
 
@@ -142,9 +140,9 @@ export const IngredientLists = () => {
         }}
       ></Autocomplete>
       <div className="md:w-32 md:ml-8 md:h-14 sm:w-10 sm:h-7 ">
-      <Drawer>
-          <DrawerTrigger asChild>
-            <Button onClick={handleSearch} className="w-32">Search</Button>
+      <Drawer >
+          <DrawerTrigger  asChild>
+            <Button onClick={handleSearch} disabled={selectedIngredients.length == 0 ? true : false} className="w-32">Search</Button>
           </DrawerTrigger>
           <DrawerContent>
 
